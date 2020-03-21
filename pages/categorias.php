@@ -123,7 +123,8 @@
 										<option value="0" selected>Selecciona una opción</option>
 										<option value="1">Gastos fijos</option>
 										<option value="2">Gastos personales</option>
-										<option value="3">Ahorros</option>
+                                        <option value="3">Ahorros</option>
+                                        <option value="4">Ingresos</option>
 									</select>
 								</div>
 							</div>
