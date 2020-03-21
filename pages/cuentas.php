@@ -126,6 +126,12 @@
 										<option value="USD">USD</option>
 									</select>
 								</div>
+                            </div>
+                            <div class="col-sm-12 col-md-12 col-lg-12 mt-2">
+								<div class="form-group mb-4">
+									<label class="mr-sm-2" for="monto_ini">Monto inicial</label>
+									<input type="number" step="0.01" class="form-control custom-radius custom-shadow border-0" id="monto_ini">
+								</div>
 							</div>
 						</div>
 						<div class="modal-footer">
