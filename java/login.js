@@ -11,7 +11,7 @@ input.addEventListener("keyup", function(event) {
 function log_in(){
     var user = document.getElementById("uname").value;
     var passwd = document.getElementById("pwd").value;
-    $.ajax('../conexions/validar.php', {
+    $.ajax('conexions/validar.php', {
         type: 'POST',  // http method
         data: { user: user,
                 passwd: passwd },  // data to submit
