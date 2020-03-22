@@ -21,12 +21,21 @@ function log_in(){
             //console.log('status: ' + status + ', data: ' + data);
             if (data == 200) {
                 window.location="/pages/dashboard.php";
-            } else {
-                alert("Error: " + data);
+            } else if (data == 400) {
+                document.getElementById("uname").className = "form-control is-invalid";
+                document.getElementById("pwd").className = "form-control is-invalid";
+                document.getElementById("mensaje").innerHTML = "<div class='alert alert-danger' role='alert'>" +
+                "Usuario o contraseña incorrecta!</div>";
+            } else if (data == 100) {
+                alert ("Problemas al conectar con el servidor");
             }
         }
     });
 };
+function lowerCase() {
+    var x=document.getElementById("uname").value
+    document.getElementById("uname").value=x.toLowerCase().trim();
+ }
 $("#btn_signup").click(function(){
     sign_up();
 });
