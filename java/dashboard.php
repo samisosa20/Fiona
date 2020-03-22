@@ -15,6 +15,15 @@ function load_data(){
                 var ingreso = registro.ingreso;
                 var egreso = registro.Egresos;
                 var utilidad = registro.utilidad;
+                if (!ingreso) {
+                    ingreso = 0 + ' K';
+                }
+                if (!egreso) {
+                    egreso = 0 + ' K';
+                }
+                if (!utilidad) {
+                    utilidad = 0 + ' K';
+                }
                 if (ingreso >= 1000 && ingreso < 1000000){
                     ingreso = ingreso / 1000 + " K";
                 } else if (ingreso >= 1000000){
@@ -46,6 +55,8 @@ function load_data(){
             console.log(data);
             $.each(data,function(key, registro) {
                 $("#lbl_ingreso").append("<h2 class='text-dark mb-1 font-weight-medium'>0 K</h2>");
+                $("#lbl_egreso").append("<h2 class='text-dark mb-1 font-weight-medium'>0 K</h2>");
+                $("#lbl_utilidad").append("<h2 class='text-dark mb-1 font-weight-medium'>0 K</h2>");
             });  
         }
     });
@@ -56,14 +67,14 @@ $.ajax({
     url: '../json/grafica.php?action=1&idu='+ idu, 
     dataType: "json",
     success: function(data){
-        console.log(data);
+        //console.log(data);
         var data2 = {};
         var value = [];
         JSON.parse(JSON.stringify(data)).forEach(function(d) {
             data2[d.categoria] = d.cantidad;
             value.push(d.categoria);
         });
-        console.log(data2);
+        //console.log(data2);
         var chart1 = c3.generate({
         bindto: '#campaign-v2',
         data: {
@@ -116,7 +127,35 @@ $.ajax({
         });
     },
     error: function (data) {
-        alert("Error al cargar los datos");
+        var chart1 = c3.generate({
+        bindto: '#campaign-v2',
+        data: {
+            columns: [
+                ['Sin ingresos', 1],
+            ],
+
+            type: 'donut',
+            tooltip: {
+                show: true
+            }
+        },
+        donut: {
+            label: {
+                show: false
+            },
+            title: 'Ingresos',
+            width: 18
+        },
+
+        legend: {
+            hide: true
+        },
+        color: {
+            pattern: [
+                '#edf2f6'
+            ]
+        }
+        });
     }
 });
 
@@ -185,7 +224,35 @@ $.ajax({
         });
     },
     error: function (data) {
-        alert("Error al cargar los datos");
+        var chart1 = c3.generate({
+        bindto: '#campaign-v3',
+        data: {
+            columns: [
+                ['Sin egresos', 1],
+            ],
+
+            type: 'donut',
+            tooltip: {
+                show: true
+            }
+        },
+        donut: {
+            label: {
+                show: false
+            },
+            title: 'Egresos',
+            width: 18
+        },
+
+        legend: {
+            hide: true
+        },
+        color: {
+            pattern: [
+                '#edf2f6'
+            ]
+        }
+        });
     }
 });
  d3.select('#campaign-v2 .c3-chart-arcs-title').style('font-family', 'Rubik');
