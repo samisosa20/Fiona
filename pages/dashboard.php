@@ -89,9 +89,7 @@
                         <div class="card-body">
                             <div class="d-flex d-lg-flex d-md-block align-items-center">
                                 <div>
-                                    <div class="d-inline-flex align-items-center">
-                                        <h2 class="text-dark mb-1 font-weight-medium">20.00 M</h2>
-                                        <!--<span class="badge bg-primary font-12 text-white font-weight-medium badge-pill ml-2 d-lg-block d-md-none">+18.33%</span>-->
+                                    <div id="lbl_ingreso" class="d-inline-flex align-items-center">
                                     </div>
                                     <h6 class="text-muted font-weight-normal mb-0 w-100 text-truncate">Ingresos</h6>
                                 </div>
@@ -105,8 +103,8 @@
                         <div class="card-body">
                             <div class="d-flex d-lg-flex d-md-block align-items-center">
                                 <div>
-                                    <h2 class="text-dark mb-1 w-100 text-truncate font-weight-medium"><sup
-                                            class="set-doller">$</sup>18.306 M</h2>
+                                    <div id="lbl_egreso" class="d-inline-flex align-items-center">
+                                    </div>
                                     <h6 class="text-muted font-weight-normal mb-0 w-100 text-truncate">Egresos</h6>
                                 </div>
                                 <div class="ml-auto mt-md-3 mt-lg-0">
@@ -119,9 +117,7 @@
                         <div class="card-body">
                             <div class="d-flex d-lg-flex d-md-block align-items-center">
                                 <div>
-                                    <div class="d-inline-flex align-items-center">
-                                        <h2 class="text-dark mb-1 font-weight-medium">1.00 M</h2>
-                                        <!--<span class="badge bg-danger font-12 text-white font-weight-medium badge-pill ml-2 d-md-none d-lg-block">-18.33%</span>-->
+                                    <div id="lbl_ahorros" class="d-inline-flex align-items-center">
                                     </div>
                                     <h6 class="text-muted font-weight-normal mb-0 w-100 text-truncate">Ahorros</h6>
                                 </div>
@@ -135,7 +131,8 @@
                         <div class="card-body">
                             <div class="d-flex d-lg-flex d-md-block align-items-center">
                                 <div>
-                                    <h2 class="text-dark mb-1 font-weight-medium">694 K</h2>
+                                    <div id="lbl_utilidad" class="d-inline-flex align-items-center">
+                                    </div>
                                     <h6 class="text-muted font-weight-normal mb-0 w-100 text-truncate">Utilidad</h6>
                                 </div>
                                 <div class="ml-auto mt-md-3 mt-lg-0">
@@ -576,6 +573,7 @@
     <script src="../assets/extra-libs/jvector/jquery-jvectormap-2.0.2.min.js"></script>
     <script src="../assets/extra-libs/jvector/jquery-jvectormap-world-mill-en.js"></script>
     <script src="../dist/js/pages/dashboards/dashboard1.js"></script>
+    <script src="../java/dashboard.php"></script>
 </body>
 
 </html>
