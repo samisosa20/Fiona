@@ -311,22 +311,44 @@ if (document.getElementById("table_move_acc")){
 						{ sortable: false,
 							"render": function ( data, type, full, meta ) {
 							var id= full.id;
-							return "";
+							var categoria = '"' + full.categoria + '"';
+							var valor = '"' + full.valor + '"';
+							var fecha = '"' + full.fecha + '"';
+							var descripcion = '"' + full.descripcion + '"';
+							var divisa = '"' + full.divisa + '"';
+							var nro_cate = full.nro_cate;
+							var valor_int = full.valor_int;
+							return "<i class='fas fa-edit mr-3' style='color: #20c997;' onclick='edit_trans("+id+","+nro_cate+","+valor_int+","+fecha+","+descripcion+","+divisa+","+sub+")'></i>"+
+							"<i class='fas fa-trash-alt' style='color: red;' onclick='delete_trans("+id+","+categoria+","+valor+","+fecha+")'></i>";
 							}
 						},
 						{data: 'categoria'},
-						{data: 'valor'},
+						{ sortable: false,
+							"render": function ( data, type, full, meta ) {
+							var valor= full.valor;
+							if (valor.indexOf('-') != -1){
+								return "<p class='text-danger'>"+valor+"</p>";
+							} else {
+								return "<p class='text-success'>"+valor+"</p>";
+							}
+							}
+						},
 						{data: 'divisa'},
 						{data: 'fecha'},
-						{data: 'id'},
+						{ sortable: false,
+							"render": function ( data, type, full, meta ) {
+							var valor= full.valor;
+							return "";
+							}
+						},
 						{data: 'dia'},
 						{data: 'mes'},
 						{data: 'ano'}
-				]
+					]
 				} );
 			},
 			error: function(data) {
-				alert("Error");
+				$('#table_move_acc').DataTable( {});
 			}
 		});
   	};
@@ -350,6 +372,26 @@ if (document.getElementById("table_move_acc")){
 	function UpdatePage(str){
 		document.getElementById("categoria").innerHTML = str ;
 	}
+	function PostCategoriaEdit(strURLop) {
+		var xmlHttp;
+		if (window.XMLHttpRequest) { // Mozilla, Safari, ...
+			var xmlHttp = new XMLHttpRequest();
+		}else if (window.ActiveXObject) { // IE
+			var xmlHttp = new ActiveXObject("Microsoft.XMLHTTP");
+		}
+		xmlHttp.open('POST', strURLop, true);
+		xmlHttp.setRequestHeader
+			('Content-Type', 'application/x-www-form-urlencoded');
+		xmlHttp.onreadystatechange = function() {
+			if (xmlHttp.readyState == 4) {
+				UpdatePageEdit(xmlHttp.responseText);
+			}
+		}
+		xmlHttp.send(strURLop);
+	}
+	function UpdatePageEdit(str){
+		document.getElementById("edit_categoria").innerHTML = str ;
+	}
 	function PostTitleMovi(strURLop) {
 		var xmlHttp;
 		if (window.XMLHttpRequest) { // Mozilla, Safari, ...
@@ -369,6 +411,26 @@ if (document.getElementById("table_move_acc")){
 	}
 	function UpdateTitle(str){
 		document.getElementById("title_movi").innerHTML = str ;
+	}
+	function PostCuentas(strURLop) {
+		var xmlHttp;
+		if (window.XMLHttpRequest) { // Mozilla, Safari, ...
+			var xmlHttp = new XMLHttpRequest();
+		}else if (window.ActiveXObject) { // IE
+			var xmlHttp = new ActiveXObject("Microsoft.XMLHTTP");
+		}
+		xmlHttp.open('POST', strURLop, true);
+		xmlHttp.setRequestHeader
+			('Content-Type', 'application/x-www-form-urlencoded');
+		xmlHttp.onreadystatechange = function() {
+			if (xmlHttp.readyState == 4) {
+				UpdateCuentas(xmlHttp.responseText);
+			}
+		}
+		xmlHttp.send(strURLop);
+	}
+	function UpdateCuentas(str){
+		document.getElementById("edit_cuenta").innerHTML = str ;
 	}
 	function PostDescAcc(strURLop) {
 		var xmlHttp;
@@ -425,14 +487,14 @@ if (document.getElementById("table_move_acc")){
 			signal.className = "btn btn-outline-success";
 		}
 	});
-	function signo(){
-		var nro = document.getElementById("valor").value;
-		var signal = document.getElementById("monto_signal");
+	function signo(id, id2){
+		var nro = document.getElementById(id).value;
+		var signal = document.getElementById(id2);
 		if (nro < 0){
 			signal.innerHTML = "-";
 			signal.value = "-";
 			signal.className = "btn btn-outline-danger";
-			document.getElementById("valor").value = nro * -1;
+			document.getElementById(id).value = nro * -1;
 		} else {
 			signal.innerHTML = "+";
 			signal.value = "+";
@@ -496,6 +558,72 @@ if (document.getElementById("table_move_acc")){
 			});
 		}
 	});
+	function delete_trans(id, categoria, valor, fecha){
+		$('#ModalDelete').modal('show');
+		document.getElementById("text_delete").innerHTML = "Esta segur@ de eliminar la transacción <strong>"+
+		categoria + " </strong> por un valor de  <strong>" + valor + " </strong> con fecha " + fecha;
+		$('#delete_trans').click(function(){
+			$.ajax({
+				url: '../conexions/delete_movi.php', 
+				type: 'POST',
+				data: {id: id },
+				success: function(data){
+					alert("Se guardaron los cambios.");
+					$('#ModalDelete').modal('hide');
+					$('#table_move_acc').dataTable().fnDestroy();
+					rellenar_table_move_acc();
+				},
+				error: function(data) {
+					alert("No se guardaron los cambios.");
+				}
+			});
+		});
+	};
+	function edit_trans(id, categoria, valor, fecha, descripcion, divisa, acco){
+		PostCategoriaEdit("consult_cate.php?act="+categoria);
+		PostCuentas("consult_accont.php?act="+acco);
+		document.getElementById("edit_valor").value = valor;
+		document.getElementById("edit_divisa").value = divisa;
+		document.getElementById("edit_descripcion").value = descripcion;
+		var div = fecha.split(" ");
+		var fecha2 = div[0] + 'T' + div[1];
+		document.getElementById("edit_fecha").value = fecha2;
+		$('#ModalEdit').modal('show');
+		$('#edit_trans').click(function(){
+			valor = document.getElementById("edit_valor").value;
+			divisa = document.getElementById("edit_divisa").value;
+			descripcion = document.getElementById("edit_descripcion").value;
+			fecha = document.getElementById("edit_fecha").value;
+			categoria = document.getElementById("edit_categoria").value;
+			var cuenta = document.getElementById("edit_cuenta").value;
+			var signo = document.getElementById("edit_monto_signal").value;
+			if ( signo == '-') {
+				valor = valor * -1;
+			}
+			$.ajax({
+				url: '../conexions/edit_movi.php', 
+				type: 'POST',
+				data: {
+					id: id,
+					valor: valor,
+					divisa: divisa,
+					descripcion: descripcion,
+					fecha: fecha,
+					categoria: categoria,
+					cuenta: cuenta
+				},
+				success: function(data){
+					alert("Se guardaron los cambios.");
+					$('#ModalEdit').modal('hide');
+					$('#table_move_acc').dataTable().fnDestroy();
+					rellenar_table_move_acc();
+				},
+				error: function(data) {
+					alert("No se guardaron los cambios.");
+				}
+			});
+		});
+	};
 };
 
 if (document.getElementById("body_profile")){
