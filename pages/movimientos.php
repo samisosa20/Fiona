@@ -87,7 +87,12 @@
 									<p id="descri_acc"></p>
 								</div>
 								<button type="button"
-										class="btn waves-effect waves-light btn-rounded btn-primary float-right mb-2"
+										class="btn waves-effect waves-light btn-rounded float-right btn-success"
+										data-target="#ModalTransDash" id="add_trans_btn" data-toggle="modal">
+										<i class="fas fa-exchange-alt mr-2"></i>Transferencia
+								</button>
+								<button type="button"
+										class="btn waves-effect waves-light btn-rounded btn-primary float-right mb-2 mr-2"
 										data-target="#ModalAdd" id="add_move_btn" data-toggle="modal">
 										<i class="fas fa-plus mr-2"></i>Ingresar
 								</button>
@@ -190,6 +195,72 @@
 					</div><!-- /.modal-content -->
 				</div><!-- /.modal-dialog -->
 			</div><!-- /.modal -->
+			<div id="ModalTransDash" class="modal fade" tabindex="-1" role="dialog"
+				aria-labelledby="myModalLabel" aria-hidden="true">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h4 class="modal-title" id="myModalLabel">Transferencias</h4>
+							<button type="button" class="close" data-dismiss="modal"
+								aria-hidden="true">×</button>
+						</div>
+						<div class="modal-body">
+							<div class="input-group">
+								<div class="col-md-2">
+									<small class="text-dark">Monto</small>
+								</div>
+								<div class="input-group-prepend">
+									<button class="btn btn-outline-success" id="trans_monto_signal" value="+" type="button">+</button>
+								</div>
+								<div class="custom-file">
+									<input type="number" step="0.02" min="0" onchange="signo('trans_valor', 'trans_monto_signal')" class="form-control" id="trans_valor">
+								</div>
+								<div class="col-md-3">
+									<select id="trans_divisa"
+                                        class="custom-select form-control bg-white custom-radius custom-shadow border-0">
+                                        <option selected>COP</option>
+                                        <option >USD</option>
+                                    </select>
+								</div>
+							</div>
+							<div class="col-sm-12 col-md-12 col-lg-12 mt-2">
+								<div class="form-group mb-4">
+									<label class="mr-sm-2" for="trans_cuenta_ini">Seleciona una cuenta de salida</label>
+									<select class="custom-select mr-sm-2 custom-radius custom-shadow border-0"
+									id="trans_cuenta_ini">
+									</select>
+								</div>
+							</div>
+							<div class="col-sm-12 col-md-12 col-lg-12 mt-2">
+								<div class="form-group mb-4">
+									<label class="mr-sm-2" for="trans_cuenta_fin">Seleciona una cuenta de entrada</label>
+									<select class="custom-select mr-sm-2 custom-radius custom-shadow border-0"
+									id="trans_cuenta_fin">
+									</select>
+								</div>
+							</div>
+							<div class="col-sm-12 col-md-12 col-lg-12 mt-2">
+								<div class="form-group mb-4">
+									<label class="mr-sm-2" for="trans_descripcion">Descripción</label>
+									<textarea class="form-control" id="trans_descripcion" rows="3" placeholder="Escribe aqui una descripción..."></textarea>
+								</div>
+							</div>
+							<div class="col-sm-12 col-md-12 col-lg-12 mt-2">
+								<div class="form-group mb-4">
+									<label class="mr-sm-2" for="trans_fecha">Fecha</label>
+									<input type="datetime-local" 
+									class="form-control custom-radius custom-shadow border-0" id="trans_fecha">
+								</div>
+							</div>
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-light"
+								data-dismiss="modal">Cerrar</button>
+							<button type="button" id="trans_trans" class="btn btn-primary">Guardar</button>
+						</div>
+					</div><!-- /.modal-content -->
+				</div><!-- /.modal-dialog -->
+			</div><!-- /.modal -->
 			<div id="ModalEdit" class="modal fade" tabindex="-1" role="dialog"
 				aria-labelledby="myModalLabel" aria-hidden="true">
 				<div class="modal-dialog">
@@ -252,6 +323,72 @@
 							<button type="button" class="btn btn-light"
 								data-dismiss="modal">Cerrar</button>
 							<button type="button" id="edit_trans" class="btn btn-primary">Guardar</button>
+						</div>
+					</div><!-- /.modal-content -->
+				</div><!-- /.modal-dialog -->
+			</div><!-- /.modal -->
+			<div id="ModalTransEdit" class="modal fade" tabindex="-1" role="dialog"
+				aria-labelledby="myModalLabel" aria-hidden="true">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h4 class="modal-title" id="myModalLabel">Transferencias</h4>
+							<button type="button" class="close" data-dismiss="modal"
+								aria-hidden="true">×</button>
+						</div>
+						<div class="modal-body">
+							<div class="input-group">
+								<div class="col-md-2">
+									<small class="text-dark">Monto</small>
+								</div>
+								<div class="input-group-prepend">
+									<button class="btn btn-outline-success" id="Edit_trans_monto_signal" value="+" type="button">+</button>
+								</div>
+								<div class="custom-file">
+									<input type="number" step="0.02" min="0" onchange="signo('Edit_trans_valor', 'Edit_trans_monto_signal')" class="form-control" id="Edit_trans_valor">
+								</div>
+								<div class="col-md-3">
+									<select id="Edit_trans_divisa"
+                                        class="custom-select form-control bg-white custom-radius custom-shadow border-0">
+                                        <option selected>COP</option>
+                                        <option >USD</option>
+                                    </select>
+								</div>
+							</div>
+							<div class="col-sm-12 col-md-12 col-lg-12 mt-2">
+								<div class="form-group mb-4">
+									<label class="mr-sm-2" for="Edit_trans_cuenta_ini">Seleciona una cuenta de salida</label>
+									<select class="custom-select mr-sm-2 custom-radius custom-shadow border-0"
+									id="Edit_trans_cuenta_ini">
+									</select>
+								</div>
+							</div>
+							<div class="col-sm-12 col-md-12 col-lg-12 mt-2">
+								<div class="form-group mb-4">
+									<label class="mr-sm-2" for="Edit_trans_cuenta_fin">Seleciona una cuenta de entrada</label>
+									<select class="custom-select mr-sm-2 custom-radius custom-shadow border-0"
+									id="Edit_trans_cuenta_fin">
+									</select>
+								</div>
+							</div>
+							<div class="col-sm-12 col-md-12 col-lg-12 mt-2">
+								<div class="form-group mb-4">
+									<label class="mr-sm-2" for="Edit_trans_descripcion">Descripción</label>
+									<textarea class="form-control" id="Edit_trans_descripcion" rows="3" placeholder="Escribe aqui una descripción..."></textarea>
+								</div>
+							</div>
+							<div class="col-sm-12 col-md-12 col-lg-12 mt-2">
+								<div class="form-group mb-4">
+									<label class="mr-sm-2" for="Edit_trans_fecha">Fecha</label>
+									<input type="datetime-local" 
+									class="form-control custom-radius custom-shadow border-0" id="Edit_trans_fecha">
+								</div>
+							</div>
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-light"
+								data-dismiss="modal">Cerrar</button>
+							<button type="button" id="Edit_trans_trans" class="btn btn-primary">Guardar</button>
 						</div>
 					</div><!-- /.modal-content -->
 				</div><!-- /.modal-dialog -->
