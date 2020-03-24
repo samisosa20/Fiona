@@ -15,12 +15,14 @@
     $categoria = $result["id"];
 
     $insert_1 = "INSERT INTO fionadb.movimientos
-    (cuenta, categoria, valor, divisa, trm, fecha, descripcion, id_user)
-    VALUES('$cuenta_ini', '$categoria', $valor * -1, '$divisa', 1, '$fecha', '$descripcion', '$id_user');    
+    (cuenta, categoria, valor, divisa, trm, fecha, descripcion, id_transfe, id_user)
+    VALUES('$cuenta_ini', '$categoria', $valor * -1, '$divisa', 1, '$fecha', '$descripcion', $cuenta_fin, '$id_user');    
     ";
     $insert_2 = "INSERT INTO fionadb.movimientos
-    (cuenta, categoria, valor, divisa, trm, fecha, descripcion, id_user)
-    VALUES('$cuenta_fin', '$categoria', $valor, '$divisa', 1, '$fecha', '$descripcion', '$id_user');    
+    (cuenta, categoria, valor, divisa, trm, fecha, descripcion, id_transfe, id_user)
+    SELECT '$cuenta_fin', '$categoria', $valor, '$divisa', 1 , '$fecha', '$descripcion', id, '$id_user'
+    FROM fionadb.movimientos WHERE id_user = '$id_user' and fecha ='$fecha' and
+    cuenta = '$cuenta_ini';  
     ";
     $save_1 = mysqli_query($conn, $insert_1);
     $save_2 = mysqli_query($conn, $insert_2);
