@@ -131,6 +131,7 @@ if (document.getElementById("ModalAccount")) {
 		var descripcion = document.getElementById("descripcion").value;
 		var divisa = document.getElementById("divisa").value;
 		var monto_ini = document.getElementById("monto_ini").value;
+		var acco_save = document.getElementById("account_save").checked;
 		if (nombre == "" || divisa == 0 || monto_ini == "") {
 			if (nombre == ""){
 				document.getElementById("nombre").className = "form-control custom-radius custom-shadow border-0 is-invalid";
@@ -147,6 +148,7 @@ if (document.getElementById("ModalAccount")) {
 				data: { nombre: nombre,
 				descripcion: descripcion,
 				divisa: divisa,
+				acco_save: acco_save,
 				monto_ini: monto_ini },  // data to submit
 				success: function (data, status, xhr) {
 					//console.log('status: ' + status + ', data: ' + data);
@@ -159,6 +161,7 @@ if (document.getElementById("ModalAccount")) {
 						document.getElementById("descripcion").value = "";
 						document.getElementById("divisa").value = 0;
 						document.getElementById("monto_ini").value = 0;
+						document.getElementById("account_save").checked = false;
 						var url = window.location.href;
 						var div = url.split("#");
 						var sub = div[1];
@@ -166,6 +169,19 @@ if (document.getElementById("ModalAccount")) {
 							sub = 0;
 						}
 						load_data(sub, idu);
+						$.ajax({
+							type: "GET",
+							url: '../json/consult.php?action=4&idu='+idu, 
+							dataType: "json",
+							success: function(data){
+								document.getElementById("balance").innerHTML = "";
+								$.each(data,function(key, registro) {
+									var utilidad_bal = registro.utilidad_bal;
+									$("#balance").append("<i class='fas fa-credit-card mr-2 ml-1'></i>"+
+											"My Balance <p class='float-right'>" + utilidad_bal + "</p>");
+									});
+							}
+						});
 					} else {
 						alert("Error: " + data);
 					}
@@ -173,10 +189,111 @@ if (document.getElementById("ModalAccount")) {
 			});
 		}
 	});
+	function delete_account(id, nombre){
+		document.getElementById("text_delete_acco").innerHTML=
+		"Esta segur@ de eliminar la cuenta: <strong>" + nombre + "</strong>, si lo hace, " +
+		"toda la información sera borrada.";
+		$('#ModalDeletAcco').modal('show');
+		$('#btn_delete_account').click(function(){
+			$.ajax({
+				url: '../conexions/delete_account.php', 
+				type: 'POST',
+				data: {id: id },
+				success: function(data){
+					$('#ModalDeletAcco').modal('hide');
+					var url = window.location.href;
+					var div = url.split("#");
+					var sub = div[1];
+					if (!sub){
+						sub = 0;
+					}
+					load_data(sub, idu);
+			},
+				error: function(data) {
+					$('#ModalDeletAcco').modal('hide');
+					alert("No se guardaron los cambios.");
+				}
+			});
+		});
+	};
+	function edit_account(id, nombre, descripcion, divisa, cantidad, ahorro){
+		document.getElementById("edit_nombre").value = nombre;
+		document.getElementById("edit_descripcion").value = descripcion;
+		document.getElementById("edit_divisa").value = divisa;
+		document.getElementById("edit_monto_ini").value = cantidad;
+		if (ahorro == 1) {
+			document.getElementById("edit_account_save").checked = true;
+		}
+		$('#ModalEditAcco').modal('show');
+		$('#btn_edit_account').unbind('click').click(function(){
+			nombre= document.getElementById("edit_nombre").value;
+			descripcion= document.getElementById("edit_descripcion").value;
+			divisa= document.getElementById("edit_divisa").value;
+			cantidad= document.getElementById("edit_monto_ini").value;
+			var acco_save = document.getElementById("edit_account_save").checked;
+			if (nombre == "" || divisa == 0 || cantidad == "") {
+				if (nombre == ""){
+					document.getElementById("edit_nombre").className = "form-control custom-radius custom-shadow border-0 is-invalid";
+				}
+				if (divisa == 0) {
+					document.getElementById("edit_divisa").className = "custom-select mr-sm-2 custom-radius custom-shadow border-0 is-invalid";
+				}
+				if (cantidad == ""){
+					document.getElementById("edit_monto_ini").className = "form-control custom-radius custom-shadow border-0 is-invalid";
+				}
+			} else {
+				$.ajax('../conexions/edit_account.php', {
+					type: 'POST',  // http method
+					data: { nombre: nombre,
+					id: id,
+					descripcion: descripcion,
+					divisa: divisa,
+					acco_save: acco_save,
+					monto_ini: cantidad },  // data to submit
+					success: function (data, status, xhr) {
+						//console.log('status: ' + status + ', data: ' + data);
+						if (data == 200) {
+							$('#ModalEditAcco').modal('hide');
+							document.getElementById("edit_nombre").className = "form-control custom-radius custom-shadow border-0";
+							document.getElementById("edit_divisa").className = "custom-select mr-sm-2 custom-radius custom-shadow border-0";
+							document.getElementById("edit_monto_ini").className = "form-control custom-radius custom-shadow border-0";
+							document.getElementById("edit_nombre").value = "";
+							document.getElementById("edit_descripcion").value = "";
+							document.getElementById("edit_divisa").value = 0;
+							document.getElementById("edit_monto_ini").value = 0;
+							document.getElementById("edit_account_save").checked = false;
+							var url = window.location.href;
+							var div = url.split("#");
+							var sub = div[1];
+							if (!sub){
+								sub = 0;
+							}
+							load_data(sub, idu);
+							$.ajax({
+								type: "GET",
+								url: '../json/consult.php?action=4&idu='+idu, 
+								dataType: "json",
+								success: function(data){
+									document.getElementById("balance").innerHTML = "";
+									$.each(data,function(key, registro) {
+										var utilidad_bal = registro.utilidad_bal;
+										$("#balance").append("<i class='fas fa-credit-card mr-2 ml-1'></i>"+
+												"My Balance <p class='float-right'>" + utilidad_bal + "</p>");
+										});
+								}
+							});
+						} else {
+							alert("Error: " + data);
+						}
+					}
+				});
+			}
+		});
+	};
 	function load_data(lvl, idu){
 		document.getElementById("card_account").innerHTML = "";
 		if (lvl != 0) {
-				$("#card_catego").append("<div class='col-md-6'>"+
+			$("#card_catego").append("<div class='col-md-6'>"+
 					"<a class='card' href='#0'>"+
 						"<div class='card-body'>"+
 							"<div class='row'>"+
@@ -186,13 +303,17 @@ if (document.getElementById("ModalAccount")) {
 						"</div>"+
 					"</a>"+
 				"</div>");
-				}
+		}
 		$.ajax({
 			type: "GET",
 			url: '../json/consult.php?action=2&idu='+idu+'&lvl='+lvl, 
 			dataType: "json",
 			success: function(data){
 				$.each(data,function(key, registro) {
+					var mensaje = "";
+					if (registro.cuenta_ahorro == 1){
+						mensaje = "Cuenta ahorro";
+					}
 					$("#card_account").append("<div class='col-md-6'>"+
 						"<div class='card'>"+
 							"<div class='card-body'>"+
@@ -200,8 +321,17 @@ if (document.getElementById("ModalAccount")) {
 									"<h3 class='card-title col-md-6 col-lg-6 col-xl-6'>"+registro.nombre+"</h3>"+
 									"<h4 class='card-title col-md-6 col-lg-6 col-xl-6'>$ "+registro.cantidad+"</h4>"+
 								"</div>"+
-								"<p class='card-text'>Divisas: "+registro.divisa+"</p>"+
-								"<a href='movimientos.php?account="+registro.id+"' class='btn btn-success'>Entrar</a>"+
+								"<div class='row'>"+
+									"<p class='card-text col-6'>Divisas: "+registro.divisa+"</p>"+
+									"<p class='card-text col-6'>"+mensaje+"</p>"+
+								"</div>"+
+								"<a href='movimientos.php?account="+registro.id+"' class='btn btn-rounded btn-success mr-1'>"+
+									"<i class='fas fa-sign-out-alt mr-2'></i>Entrar</a>"+
+								"<button class='btn btn-circle btn-primary mr-1' onclick='edit_account("+registro.id+","+'"'+registro.nombre+'"'+
+								","+'"'+registro.descripcion+'"'+","+'"'+registro.divisa+'"'+","+registro.cantidad_int+","+registro.cuenta_ahorro+")'>"+
+									"<i class='far fa-edit'></i></button>"+
+								"<button class='btn btn-circle btn-danger' onclick='delete_account("+registro.id+","+'"'+registro.nombre+'"'+")'>"+
+									"<i class='fas fa-trash-alt'></i></button>"+
 							"</div>"+
 						"</div>"+
 					"</div>");
@@ -861,12 +991,6 @@ $.ajax({
 			var utilidad_bal = registro.utilidad_bal;
 			$("#balance").append("<i class='fas fa-credit-card mr-2 ml-1'></i>"+
                     "My Balance <p class='float-right'>" + utilidad_bal + "</p>");
-		});   
-	},
-	error: function(data) {
-		$.each(data,function(key, registro) {
-			$("#balance").append("<i class='fas fa-credit-card mr-2 ml-1'></i>"+
-                    "My Balance <p class='float-right'>0.00</p>");
-		});  
+			});
 	}
 });
