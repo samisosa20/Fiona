@@ -30,7 +30,8 @@ function list_account(){
         $id_user = $_GET['idu'];
         $lvl = $_GET['lvl'];
         $strsql = "SELECT a.id, nombre, FORMAT(IF(SUM(valor) IS NULL, 0, SUM(valor)) + monto_inicial, 2)
-        AS cantidad, a.divisa FROM fionadb.cuentas AS a 
+        AS cantidad,  IF(SUM(valor) IS NULL, 0, SUM(valor)) + monto_inicial
+        AS cantidad_int, a.descripcion, a.divisa, a.cuenta_ahorro FROM fionadb.cuentas AS a 
         LEFT JOIN fionadb.movimientos AS b ON (a.id = cuenta and a.id_user = b.id_user)
         WHERE a.id_user='$id_user' GROUP BY nombre, b.divisa";
         $rs = mysqli_query($conn, $strsql);
@@ -73,8 +74,8 @@ function consolidado(){
         echo "Error: Ups! Hubo problemas con la conexión.  Favor de intentar nuevamente.";
     } else {
         $id_user = $_GET['idu'];
-        $strsql = "SELECT SUM(IF(valor > 0, valor, 0)) AS ingreso, SUM(IF(valor < 0, valor, 0)) 
-        AS Egresos, SUM(valor) AS utilidad, FORMAT(SUM(valor),2) AS utilidad_bal FROM fionadb.movimientos WHERE id_user='$id_user'";
+        $strsql = "SELECT ingreso, Egresos, utilidad, FORMAT(utilidad,2) AS utilidad_bal 
+        FROM fionadb.consolidado WHERE id_user='$id_user'";
         $rs = mysqli_query($conn, $strsql);
         $total_rows = $rs->num_rows;
         if ($total_rows > 0 ) {
