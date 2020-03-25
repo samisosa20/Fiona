@@ -149,7 +149,83 @@
 						</div>
 					</div><!-- /.modal-content -->
 				</div><!-- /.modal-dialog -->
-			</div><!-- /.modal -->
+            </div><!-- /.modal -->
+            <div id="ModalEditAcco" class="modal fade" tabindex="-1" role="dialog"
+				aria-labelledby="myModalLabel" aria-hidden="true">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h4 class="modal-title" id="myModalLabel">Editor de cuentas</h4>
+							<button type="button" class="close" data-dismiss="modal"
+								aria-hidden="true">×</button>
+						</div>
+						<div class="modal-body">
+                            <div class="col-sm-12 col-md-12 col-lg-12 mt-2">
+								<div class="form-group mb-4">
+									<label class="mr-sm-2" for="edit_nombre">Nombre</label>
+									<input type="text" class="form-control custom-radius custom-shadow border-0" id="edit_nombre">
+								</div>
+							</div>
+							<div class="col-sm-12 col-md-12 col-lg-12 mt-2">
+								<div class="form-group mb-4">
+									<label class="mr-sm-2" for="edit_descripcion">Descripción</label>
+									<textarea class="form-control" id="edit_descripcion" rows="3" placeholder="Escribe aqui una descripción..."></textarea>
+								</div>
+							</div>
+                            <div class="col-sm-12 col-md-12 col-lg-12 mt-2">
+								<div class="form-group mb-4">
+									<label class="mr-sm-2" for="edit_divisa">Divisa</label>
+									<select class="custom-select mr-sm-2 custom-radius custom-shadow border-0"
+									id="edit_divisa">
+										<option value="0" selected>Selecciona una opción</option>
+										<option value="COP">COP</option>
+										<option value="USD">USD</option>
+									</select>
+								</div>
+                            </div>
+                            <div class="col-sm-12 col-md-12 col-lg-12 mt-2">
+								<div class="form-group mb-4">
+									<label class="mr-sm-2" for="edit_monto_ini">Monto inicial</label>
+									<input type="number" step="0.01" class="form-control custom-radius custom-shadow border-0" id="edit_monto_ini">
+								</div>
+                            </div>
+                            <div class="col-sm-12 col-md-12 col-lg-12 mt-2">
+                                <div class="form-check form-check-inline">
+                                    <div class="custom-control custom-checkbox">
+                                        <input type="checkbox" class="custom-control-input" id="edit_account_save">
+                                        <label class="custom-control-label" for="edit_account_save">Seleciona si es cuenta para ahorrar</label>
+                                    </div>
+                                </div>
+                            </div>
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-light"
+								data-dismiss="modal">Cerrar</button>
+							<button type="button" id="btn_edit_account" class="btn btn-primary">Guardar</button>
+						</div>
+					</div><!-- /.modal-content -->
+				</div><!-- /.modal-dialog -->
+            </div><!-- /.modal -->
+            <div id="ModalDeletAcco" class="modal fade" tabindex="-1" role="dialog"
+				aria-labelledby="myModalLabel" aria-hidden="true">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h4 class="modal-title" id="myModalLabel">Eliminar cuenta</h4>
+							<button type="button" class="close" data-dismiss="modal"
+								aria-hidden="true">×</button>
+						</div>
+						<div id="text_delete_acco" class="modal-body">
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-light"
+								data-dismiss="modal">Cerrar</button>
+							<button type="button" id="btn_delete_account" class="btn btn-danger">Eliminar</button>
+						</div>
+					</div><!-- /.modal-content -->
+				</div><!-- /.modal-dialog -->
+            </div><!-- /.modal -->
+            
             <!-- ============================================================== -->
             <!-- footer -->
             <!-- ============================================================== -->
