@@ -32,27 +32,27 @@ function log_in(){
         }
     });
 };
-function lowerCase() {
-    var x=document.getElementById("uname").value
-    document.getElementById("uname").value=x.toLowerCase().trim();
- }
+function lowerCase(id) {
+    var x=document.getElementById(id).value
+    document.getElementById(id).value=x.toLowerCase().trim();
+};
 $("#btn_signup").click(function(){
     sign_up();
 });
 function sign_up(){
     var name = document.getElementById("name").value;
     var lastname = document.getElementById("lastname").value;
-    var email = document.getElementById("email").value;
+    var email = document.getElementById("email").value.trim();
     var pass = document.getElementById("pass").value;
     emailRegex = /^[-\w.%+]{1,64}@(?:[A-Z0-9-]{1,63}\.){1,125}[A-Z]{2,63}$/i;
-    if (email == "" || !emailRegex.test(email) || name == "" || pass == "" || pass.lenght < 6){
+    if (email == "" || !emailRegex.test(email) || name == "" || pass == "" || pass.length < 6){
         if (!emailRegex.test(email) || email == ""){
             document.getElementById("email").className = "form-control is-invalid";
         }
         if (name == ""){
             document.getElementById("name").className = "form-control is-invalid";
         }
-        if (pass == "" || pass.lenght < 6){
+        if (pass == "" || pass.length < 6){
             document.getElementById("pass").className = "form-control is-invalid";
         }
     } else {
