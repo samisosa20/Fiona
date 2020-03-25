@@ -6,16 +6,16 @@ load_data();
 view_chart();
 function load_data(){
     var idu = <?php echo $id_user;?>;
+    document.getElementById("lbl_ingreso").innerHTML = "";
+    document.getElementById("lbl_egreso").innerHTML = "";
+    document.getElementById("lbl_utilidad").innerHTML = "";
+    document.getElementById("balance").innerHTML = "";
     $.ajax({
         type: "GET",
         url: '../json/consult.php?action=4&idu='+idu, 
         dataType: "json",
         success: function(data){
             //console.log(data);
-            document.getElementById("lbl_ingreso").innerHTML = "";
-            document.getElementById("lbl_egreso").innerHTML = "";
-            document.getElementById("lbl_utilidad").innerHTML = "";
-            document.getElementById("balance").innerHTML = "";
             $.each(data,function(key, registro) {
                 var ingreso = registro.ingreso;
                 var egreso = registro.Egresos;
@@ -65,13 +65,11 @@ function load_data(){
             });   
         },
         error: function(data) {
-            $.each(data,function(key, registro) {
-                $("#lbl_ingreso").append("<h2 class='text-dark mb-1 font-weight-medium'>0 K</h2>");
-                $("#lbl_egreso").append("<h2 class='text-dark mb-1 font-weight-medium'>0 K</h2>");
-                $("#lbl_utilidad").append("<h2 class='text-dark mb-1 font-weight-medium'>0 K</h2>");
-                $("#balance").append("<i class='fas fa-credit-card mr-2 ml-1'></i>"+
-                                "My Balance <p class='float-right'>0.00</p>");
-            });  
+            $("#lbl_ingreso").append("<h2 class='text-dark mb-1 font-weight-medium'>0 K</h2>");
+            $("#lbl_egreso").append("<h2 class='text-dark mb-1 font-weight-medium'>0 K</h2>");
+            $("#lbl_utilidad").append("<h2 class='text-dark mb-1 font-weight-medium'>0 K</h2>");
+            $("#balance").append("<i class='fas fa-credit-card mr-2 ml-1'></i>"+
+                            "My Balance <p class='float-right'>0.00</p>");
         }
     });
 };
