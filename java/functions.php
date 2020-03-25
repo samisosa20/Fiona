@@ -4,7 +4,7 @@ $id_user = "\"".$_SESSION["Id_user"]."\"";
 ?>
 if (document.getElementById("ModalCategora")) {
 	var idu = <?php echo $id_user; ?>;
-	PostCategoria_cat("consult_cate.php");
+	PostCategoria("consult_cate.php", "categoria");
 	$("#save_cate").click(function(){
 		var nombre = document.getElementById("nombre").value;
 		var descripcion = document.getElementById("descripcion").value;
@@ -41,7 +41,7 @@ if (document.getElementById("ModalCategora")) {
 							sub = 0;
 						}
 						load_data_cat(sub, idu);
-						PostCategoria_cat("consult_cate.php");
+						PostCategoria("consult_cate.php", "categoria");
 					} else {
 						alert("Error: " + data);
 					}
@@ -49,26 +49,6 @@ if (document.getElementById("ModalCategora")) {
 			});
 		}
 	});
-	function PostCategoria_cat(strURLop) {
-		var xmlHttp;
-		if (window.XMLHttpRequest) { // Mozilla, Safari, ...
-			var xmlHttp = new XMLHttpRequest();
-		}else if (window.ActiveXObject) { // IE
-			var xmlHttp = new ActiveXObject("Microsoft.XMLHTTP");
-		}
-		xmlHttp.open('POST', strURLop, true);
-		xmlHttp.setRequestHeader
-			('Content-Type', 'application/x-www-form-urlencoded');
-		xmlHttp.onreadystatechange = function() {
-			if (xmlHttp.readyState == 4) {
-				UpdatePageCate(xmlHttp.responseText);
-			}
-		}
-		xmlHttp.send(strURLop);
-	}
-	function UpdatePageCate(str){
-		document.getElementById("categoria").innerHTML = str ;
-	}
 	function load_data_cat(lvl, idu){
 		document.getElementById("card_catego").innerHTML = "";
 		if (lvl != 0) {
@@ -193,26 +173,6 @@ if (document.getElementById("ModalAccount")) {
 			});
 		}
 	});
-	function PostCategoria(strURLop) {
-		var xmlHttp;
-		if (window.XMLHttpRequest) { // Mozilla, Safari, ...
-			var xmlHttp = new XMLHttpRequest();
-		}else if (window.ActiveXObject) { // IE
-			var xmlHttp = new ActiveXObject("Microsoft.XMLHTTP");
-		}
-		xmlHttp.open('POST', strURLop, true);
-		xmlHttp.setRequestHeader
-			('Content-Type', 'application/x-www-form-urlencoded');
-		xmlHttp.onreadystatechange = function() {
-			if (xmlHttp.readyState == 4) {
-				UpdatePage(xmlHttp.responseText);
-			}
-		}
-		xmlHttp.send(strURLop);
-	}
-	function UpdatePage(str){
-		document.getElementById("categoria").innerHTML = str ;
-	}
 	function load_data(lvl, idu){
 		document.getElementById("card_account").innerHTML = "";
 		if (lvl != 0) {
@@ -358,46 +318,6 @@ if (document.getElementById("table_move_acc")){
 			}
 		});
   	};
-	function PostCategoria(strURLop) {
-		var xmlHttp;
-		if (window.XMLHttpRequest) { // Mozilla, Safari, ...
-			var xmlHttp = new XMLHttpRequest();
-		}else if (window.ActiveXObject) { // IE
-			var xmlHttp = new ActiveXObject("Microsoft.XMLHTTP");
-		}
-		xmlHttp.open('POST', strURLop, true);
-		xmlHttp.setRequestHeader
-			('Content-Type', 'application/x-www-form-urlencoded');
-		xmlHttp.onreadystatechange = function() {
-			if (xmlHttp.readyState == 4) {
-				UpdatePage(xmlHttp.responseText);
-			}
-		}
-		xmlHttp.send(strURLop);
-	}
-	function UpdatePage(str){
-		document.getElementById("categoria").innerHTML = str ;
-	}
-	function PostCategoriaEdit(strURLop) {
-		var xmlHttp;
-		if (window.XMLHttpRequest) { // Mozilla, Safari, ...
-			var xmlHttp = new XMLHttpRequest();
-		}else if (window.ActiveXObject) { // IE
-			var xmlHttp = new ActiveXObject("Microsoft.XMLHTTP");
-		}
-		xmlHttp.open('POST', strURLop, true);
-		xmlHttp.setRequestHeader
-			('Content-Type', 'application/x-www-form-urlencoded');
-		xmlHttp.onreadystatechange = function() {
-			if (xmlHttp.readyState == 4) {
-				UpdatePageEdit(xmlHttp.responseText);
-			}
-		}
-		xmlHttp.send(strURLop);
-	}
-	function UpdatePageEdit(str){
-		document.getElementById("edit_categoria").innerHTML = str ;
-	}
 	function PostTitleMovi(strURLop) {
 		var xmlHttp;
 		if (window.XMLHttpRequest) { // Mozilla, Safari, ...
@@ -417,26 +337,6 @@ if (document.getElementById("table_move_acc")){
 	}
 	function UpdateTitle(str){
 		document.getElementById("title_movi").innerHTML = str ;
-	}
-	function PostCuentas(strURLop, div) {
-		var xmlHttp;
-		if (window.XMLHttpRequest) { // Mozilla, Safari, ...
-			var xmlHttp = new XMLHttpRequest();
-		}else if (window.ActiveXObject) { // IE
-			var xmlHttp = new ActiveXObject("Microsoft.XMLHTTP");
-		}
-		xmlHttp.open('POST', strURLop, true);
-		xmlHttp.setRequestHeader
-			('Content-Type', 'application/x-www-form-urlencoded');
-		xmlHttp.onreadystatechange = function() {
-			if (xmlHttp.readyState == 4) {
-				UpdateCuentas(xmlHttp.responseText, div);
-			}
-		}
-		xmlHttp.send(strURLop);
-	}
-	function UpdateCuentas(str, div){
-		document.getElementById(div).innerHTML = str ;
 	}
 	function PostDescAcc(strURLop) {
 		var xmlHttp;
@@ -459,7 +359,7 @@ if (document.getElementById("table_move_acc")){
 		document.getElementById("descri_acc").innerHTML = str ;
 	}
 	$("#add_move_btn").click(function(){
-		PostCategoria("consult_cate.php");
+		PostCategoria("consult_cate.php", "categoria");
 		var now = new Date($.now())
 			, year
 			, month
@@ -598,7 +498,7 @@ if (document.getElementById("table_move_acc")){
 		});
 	};
 	function edit_trans(id, categoria, valor, fecha, descripcion, divisa, acco){
-		PostCategoriaEdit("consult_cate.php?act="+categoria);
+		PostCategoria("consult_cate.php?act="+categoria, "edit_categoria");
 		PostCuentas("consult_accont.php?act="+acco, "edit_cuenta");
 		document.getElementById("edit_valor").value = valor;
 		document.getElementById("edit_divisa").value = divisa;
@@ -907,6 +807,48 @@ if (document.getElementById("body_profile")){
 		}
 	};
 };
+
+function PostCategoria(strURLop, div) {
+	var xmlHttp;
+	if (window.XMLHttpRequest) { // Mozilla, Safari, ...
+		var xmlHttp = new XMLHttpRequest();
+	}else if (window.ActiveXObject) { // IE
+		var xmlHttp = new ActiveXObject("Microsoft.XMLHTTP");
+	}
+	xmlHttp.open('POST', strURLop, true);
+	xmlHttp.setRequestHeader
+		('Content-Type', 'application/x-www-form-urlencoded');
+	xmlHttp.onreadystatechange = function() {
+		if (xmlHttp.readyState == 4) {
+			UpdatePageCate(xmlHttp.responseText, div);
+		}
+	}
+	xmlHttp.send(strURLop);
+}
+function UpdatePageCate(str, div){
+	document.getElementById(div).innerHTML = str ;
+}
+
+function PostCuentas(strURLop, div) {
+	var xmlHttp;
+	if (window.XMLHttpRequest) { // Mozilla, Safari, ...
+		var xmlHttp = new XMLHttpRequest();
+	}else if (window.ActiveXObject) { // IE
+		var xmlHttp = new ActiveXObject("Microsoft.XMLHTTP");
+	}
+	xmlHttp.open('POST', strURLop, true);
+	xmlHttp.setRequestHeader
+		('Content-Type', 'application/x-www-form-urlencoded');
+	xmlHttp.onreadystatechange = function() {
+		if (xmlHttp.readyState == 4) {
+			UpdateCuentas(xmlHttp.responseText, div);
+		}
+	}
+	xmlHttp.send(strURLop);
+}
+function UpdateCuentas(str, div){
+	document.getElementById(div).innerHTML = str ;
+}
 
 var idu = <?php echo $id_user;?>;
 $.ajax({
