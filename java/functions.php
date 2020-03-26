@@ -2,9 +2,10 @@
 session_start();
 $id_user = "\"".$_SESSION["Id_user"]."\"";
 ?>
+var idu = <?php echo $id_user;?>;
+val_session(idu);
 if (document.getElementById("ModalCategora")) {
 	var idu = <?php echo $id_user; ?>;
-	PostCategoria("consult_cate.php", "categoria");
 	$("#save_cate").click(function(){
 		var nombre = document.getElementById("nombre").value;
 		var descripcion = document.getElementById("descripcion").value;
@@ -49,6 +50,98 @@ if (document.getElementById("ModalCategora")) {
 			});
 		}
 	});
+	function delete_catego(id, nombre){
+		document.getElementById("text_delete_catego").innerHTML=
+		"Esta segur@ de eliminar la categoria: <strong>" + nombre + "</strong>, si lo hace, " +
+		"toda la información sera borrada.";
+		$('#ModalDeletCatego').modal('show');
+		$('#btn_delete_categoria').click(function(){
+			$.ajax({
+				url: '../conexions/delete_categoria.php', 
+				type: 'POST',
+				data: {id: id },
+				success: function(data){
+					$('#ModalDeletCatego').modal('hide');
+					var url = window.location.href;
+					var div = url.split("#");
+					var sub = div[1];
+					if (!sub){
+						sub = 0;
+					}
+					load_data_cat(sub, idu);
+			},
+				error: function(data) {
+					$('#ModalDeletCatego').modal('hide');
+					alert("No se guardaron los cambios.");
+				}
+			});
+		});
+	};
+	function edit_categoria(id, nombre, descripcion, grupo, sub_categoria){
+		PostCategoria("consult_cate.php?act="+sub_categoria, "edit_categoria");
+		document.getElementById("edit_nombre").value = nombre;
+		document.getElementById("edit_descripcion").value = descripcion;
+		document.getElementById("edit_grupo").value = grupo;
+
+		$('#ModalEditCatego').modal('show');
+		$('#btn_edit_cate').unbind('click').click(function(){
+			nombre = document.getElementById("edit_nombre").value;
+			descripcion = document.getElementById("edit_descripcion").value;
+			grupo = document.getElementById("edit_grupo").value;
+			sub_categoria = document.getElementById("edit_categoria").value;
+			if (nombre == "" || grupo == 0) {
+				if (nombre == ""){
+					document.getElementById("edit_nombre").className = "form-control custom-radius custom-shadow border-0 is-invalid";
+				}
+				if (grupo == 0) {
+					document.getElementById("edit_grupo").className = "custom-select mr-sm-2 custom-radius custom-shadow border-0 is-invalid";
+				}
+			} else {
+				$.ajax('../conexions/edit_catego.php', {
+					type: 'POST',  // http method
+					data: { nombre: nombre,
+					id: id,
+					descripcion: descripcion,
+					grupo: grupo,
+					sub_categoria: sub_categoria },  // data to submit
+					success: function (data, status, xhr) {
+						//console.log('status: ' + status + ', data: ' + data);
+						if (data == 200) {
+							$('#ModalEditCatego').modal('hide');
+							document.getElementById("edit_nombre").className = "form-control custom-radius custom-shadow border-0";
+							document.getElementById("edit_grupo").className = "custom-select mr-sm-2 custom-radius custom-shadow border-0";
+							document.getElementById("edit_nombre").value = "";
+							document.getElementById("edit_descripcion").value = "";
+							document.getElementById("edit_grupo").value = 0;
+							document.getElementById("edit_categoria").value = 0;
+							var url = window.location.href;
+							var div = url.split("#");
+							var sub = div[1];
+							if (!sub){
+								sub = 0;
+							}
+							load_data_cat(sub, idu);
+							$.ajax({
+								type: "GET",
+								url: '../json/consult.php?action=4&idu='+idu, 
+								dataType: "json",
+								success: function(data){
+									document.getElementById("balance").innerHTML = "";
+									$.each(data,function(key, registro) {
+										var utilidad_bal = registro.utilidad_bal;
+										$("#balance").append("<i class='fas fa-credit-card mr-2 ml-1'></i>"+
+												"My Balance <p class='float-right'>" + utilidad_bal + "</p>");
+										});
+								}
+							});
+						} else {
+							alert("Error: " + data);
+						}
+					}
+				});
+			}
+		});
+	};
 	function load_data_cat(lvl, idu){
 		document.getElementById("card_catego").innerHTML = "";
 		if (lvl != 0) {
@@ -69,16 +162,19 @@ if (document.getElementById("ModalCategora")) {
 			dataType: "json",
 			success: function(data){
 				$.each(data,function(key, registro) {
-					$("#card_catego").append("<div class='col-md-6'>"+
-						"<a class='card' href='#"+registro.id+"'>"+
-							"<div class='card-body'>"+
+					$("#card_catego").append("<div class='card col-md-6'>"+
+						"<div class='card-body' style='padding-left: 10px; padding-right: 10px;'>"+
+							"<i class='fas fa-trash-alt float-right' onclick='delete_catego("+registro.id+","+'"'+registro.categoria+'"'+")' style='color: red;'></i>"+
+							"<i class='far fa-edit float-right mr-1' onclick='edit_categoria("+registro.id+","+'"'+registro.categoria+'"'+","+'"'+registro.descripcion+'"'+","+registro.grupo+","+registro.sub_categoria+")'"+
+							" style='color: #5f76e8;'></i>"+
+							"<a href='#"+registro.id+"'>"+
 								"<div class='row'>"+
 									"<h3 class='card-title col-md-9 col-lg-9 col-xl-9'>"+registro.categoria+"</h3>"+
 									"<h4 class='card-title col-md-3 col-lg-3 col-xl-3'>"+registro.cantidad+
-										"<i class='icon-arrow-right'></i></h4>"+
+										"<i class='icon-arrow-right ml-2'></i></h4>"+
 								"</div>"+
-							"</div>"+
-						"</a>"+
+							"</a>"+
+						"</div>"+
 					"</div>");
 				});
 				$("#card_catego").append("<div class='col-md-6'>"+
@@ -108,6 +204,7 @@ if (document.getElementById("ModalCategora")) {
 	};
 	var aux = 0;
 	load_data_cat(0, idu);
+	PostCategoria("consult_cate.php", "categoria");
 	setInterval(function(){
 		var url = window.location.href;
 		var div = url.split("#");
@@ -118,6 +215,7 @@ if (document.getElementById("ModalCategora")) {
 		if (sub != aux){
 			var idu = <?php echo $id_user; ?>;
 			aux = sub;
+			PostCategoria("consult_cate.php?act="+sub, "categoria");
 			load_data_cat(sub, idu);
 		}
 	}, 1000);
@@ -954,10 +1052,10 @@ function PostCategoria(strURLop, div) {
 		}
 	}
 	xmlHttp.send(strURLop);
-}
+};
 function UpdatePageCate(str, div){
 	document.getElementById(div).innerHTML = str ;
-}
+};
 
 function PostCuentas(strURLop, div) {
 	var xmlHttp;
@@ -975,12 +1073,17 @@ function PostCuentas(strURLop, div) {
 		}
 	}
 	xmlHttp.send(strURLop);
-}
+};
 function UpdateCuentas(str, div){
 	document.getElementById(div).innerHTML = str ;
-}
+};
 
-var idu = <?php echo $id_user;?>;
+function val_session(idu){
+    if(idu == ""){
+        window.location = "/";
+    }
+};
+
 $.ajax({
 	type: "GET",
 	url: '../json/consult.php?action=4&idu='+idu, 
