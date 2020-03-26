@@ -4,6 +4,7 @@ $id_user = $_SESSION["Id_user"];
 $user = $_SESSION["user"];
 $name = $_SESSION["name"];
 $last_name = $_SESSION["last_name"];
+$divisa_prim = $_SESSION["divisa"]
 ?>
         <!-- ============================================================== -->
         <!-- Topbar header - style you can find in pages.scss -->
@@ -189,11 +190,8 @@ $last_name = $_SESSION["last_name"];
                                         class="text-dark"><?php echo $name; ?></span> <i data-feather="chevron-down"
                                         class="svg-icon"></i></span>
                             </a>
-                            <div class="dropdown-menu dropdown-menu-right user-dd animated flipInY">
-                                <a class="dropdown-item" href="/pages/profile.php"><i data-feather="user"
-                                        class="svg-icon mr-2 ml-1"></i>
-                                    My Profile</a>
-                                <a class="dropdown-item row" style ="margin: 0px;" id="balance"></a>
+                            <div id="balance" class="dropdown-menu dropdown-menu-right user-dd animated flipInY">
+                                
                                 <!--<a class="dropdown-item" href="javascript:void(0)"><i data-feather="mail"
                                         class="svg-icon mr-2 ml-1"></i>
                                     Inbox</a>
@@ -201,10 +199,7 @@ $last_name = $_SESSION["last_name"];
                                 <a class="dropdown-item" href="javascript:void(0)"><i data-feather="settings"
                                         class="svg-icon mr-2 ml-1"></i>
                                     Account Setting</a>-->
-                                <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="/"><i data-feather="power"
-                                        class="svg-icon mr-2 ml-1"></i>
-                                    Logout</a>
+                                
                             </div>
                         </li>
                         <!-- ============================================================== -->

@@ -1,20 +1,63 @@
 <?php
 session_start();
 $id_user = "\"".$_SESSION["Id_user"]."\"";
+$divisa_primary = "\"".$_SESSION["divisa"]."\"";
 ?>
-load_data();
-view_chart();
+load_data(1);
 var idu = <?php echo $id_user;?>;
 val_session(idu);
-function load_data(){
+
+function load_data(reload){ // 1 to reload divisas and 0 to not reaload
+    var idu = <?php echo $id_user;?>;
+    document.getElementById("balance").innerHTML = "";
+    if (reload == 1){
+        var divisa_primary = <?php echo $divisa_primary;?>;
+        document.getElementById("select_divisa").innerHTML = "";
+    } else {
+        var divisa_primary = document.getElementById("select_divisa").value;
+    }
+    $.ajax({
+        type: "GET",
+        url: '../json/consult.php?action=4&idu='+idu, 
+        dataType: "json",
+        success: function(data){
+            document.getElementById("balance").innerHTML = "";
+            $("#balance").append("<a class='dropdown-item' href='/pages/profile.php'><i "+
+                " class='fas fa-user mr-2 ml-1'></i>"+
+                "My Profile</a>"
+            );
+            $.each(data,function(key, registro) {
+                var utilidad_bal = registro.utilidad_bal;
+                $("#balance").append("<a class='dropdown-item row' style ='margin: 0px;'>"+
+                    "<i class='fas fa-credit-card mr-2 ml-1'></i>"+
+                    "Balance <p class='float-right'>" + utilidad_bal + " "+ registro.divisa +"</p>"+
+                    "</a>"
+                );
+                if (reload == 1){
+                    if (divisa_primary == registro.divisa){
+                        $('#select_divisa').append("<option selected value='"+registro.divisa+"'>"+registro.divisa+"</option>");
+                    } else {
+                        $('#select_divisa').append("<option value='"+registro.divisa+"'>"+registro.divisa+"</option>");
+                    }
+                }
+            });
+            $("#balance").append("<div class='dropdown-divider'></div>"+
+                "<a class='dropdown-item' href='/'><i "+
+                " class='fas fa-power-off mr-2 ml-1'></i>"+
+                "Logout</a>"
+            );
+        }
+    });
+    load_card(divisa_primary);
+};
+function load_card(divisa_primary){
     var idu = <?php echo $id_user;?>;
     document.getElementById("lbl_ingreso").innerHTML = "";
     document.getElementById("lbl_egreso").innerHTML = "";
     document.getElementById("lbl_utilidad").innerHTML = "";
-    document.getElementById("balance").innerHTML = "";
     $.ajax({
         type: "GET",
-        url: '../json/consult.php?action=4&idu='+idu, 
+        url: '../json/consult.php?action=5&idu='+idu+'&divi='+divisa_primary, 
         dataType: "json",
         success: function(data){
             //console.log(data);
@@ -22,7 +65,6 @@ function load_data(){
                 var ingreso = registro.ingreso;
                 var egreso = registro.Egresos;
                 var utilidad = registro.utilidad;
-                var utilidad_bal = registro.utilidad_bal;
                 if (!ingreso) {
                     ingreso = 0 + ' K';
                 }
@@ -57,23 +99,15 @@ function load_data(){
                     "class='set-doller'>$</sup>"+egreso+"</h2>");
                 $("#lbl_utilidad").append("<h2 class='text-dark mb-1 font-weight-medium'><sup " +
                     "class='set-doller'>$</sup>"+utilidad+"</h2>");
-                if (!utilidad_bal){
-                    $("#balance").append("<i class='fas fa-credit-card mr-2 ml-1'></i>"+
-                                "My Balance <p class='float-right'>0.00</p>");
-                } else {
-                    $("#balance").append("<i class='fas fa-credit-card mr-2 ml-1'></i>"+
-                                "My Balance <p class='float-right'>" + utilidad_bal + "</p>");
-                }
             });   
         },
         error: function(data) {
             $("#lbl_ingreso").append("<h2 class='text-dark mb-1 font-weight-medium'>0 K</h2>");
             $("#lbl_egreso").append("<h2 class='text-dark mb-1 font-weight-medium'>0 K</h2>");
             $("#lbl_utilidad").append("<h2 class='text-dark mb-1 font-weight-medium'>0 K</h2>");
-            $("#balance").append("<i class='fas fa-credit-card mr-2 ml-1'></i>"+
-                            "My Balance <p class='float-right'>0.00</p>");
         }
     });
+    view_chart(divisa_primary);
 };
 
 $('#add_move_btn').click(function(){
@@ -97,7 +131,7 @@ $('#add_move_btn').click(function(){
     seconds = now.getSeconds().toString().length === 1 ? '0' + now.getSeconds().toString() : now.getSeconds();
 
     formattedDateTime = year + '-' + month + '-' + date + 'T' + hours + ':' + minutes + ':' + seconds;
-
+    document.getElementById("dash_divisa").value = document.getElementById("select_divisa").value;
     document.getElementById("dash_fecha").value = formattedDateTime;
     $("#dash_monto_signal").click(function(){
 		var signal = document.getElementById("dash_monto_signal");
@@ -111,10 +145,11 @@ $('#add_move_btn').click(function(){
 			signal.className = "btn btn-outline-success";
 		}
 	});
-    $("#dash_trans").click(function(){
+
+    $("#dash_trans").unbind('click').click(function(){
 		var monto_signal = document.getElementById("dash_monto_signal").value;
 		var valor = document.getElementById("dash_valor").value;
-        var cuenta = document.getElementById("dash_valor").value;
+        var cuenta = document.getElementById("dash_cuenta").value;
 		var divisa = document.getElementById("dash_divisa").value;
 		var categoria = document.getElementById("dash_categoria").value;
 		var descripcion = document.getElementById("dash_descripcion").value;
@@ -165,8 +200,7 @@ $('#add_move_btn').click(function(){
 						document.getElementById("dash_descripcion").value = "";
                         document.getElementById("dash_cuenta").value = 0;
 						document.getElementById("dash_categoria").value = 0;
-                        load_data();
-                        view_chart();
+                        load_data(0);
 					} else {
 						alert("Error: " + data);
 					}
@@ -198,6 +232,7 @@ $('#add_trans_btn').click(function(){
     formattedDateTime = year + '-' + month + '-' + date + 'T' + hours + ':' + minutes + ':' + seconds;
 
     document.getElementById("dash_trans_fecha").value = formattedDateTime;
+    document.getElementById("dash_divisa").value = document.getElementById("select_divisa").value;
     $("#dash_trans_monto_signal").click(function(){
 		var signal = document.getElementById("dash_trans_monto_signal");
 		if (signal.value == "+"){
@@ -210,7 +245,7 @@ $('#add_trans_btn').click(function(){
 			signal.className = "btn btn-outline-success";
 		}
 	});
-    $("#dash_trans_trans").click(function(){
+    $("#dash_trans_trans").unbind('click').click(function(){
 		var monto_signal = document.getElementById("dash_trans_monto_signal").value;
 		var valor = document.getElementById("dash_trans_valor").value;
         var cuenta_ini = document.getElementById("dash_trans_cuenta_ini").value;
@@ -264,8 +299,7 @@ $('#add_trans_btn').click(function(){
 						document.getElementById("dash_trans_descripcion").value = "";
                         document.getElementById("dash_trans_cuenta_ini").value = 0;
 						document.getElementById("dash_trans_cuenta_fin").value = 0;
-                        load_data();
-                        view_chart();
+                        load_data(0);
 					} else {
 						alert("Error: " + data);
 					}
@@ -334,11 +368,12 @@ function PostCuentas(strURLop, div) {
 function UpdateCuentas(str, div){
     document.getElementById(div).innerHTML = str ;
 };
-function view_chart(){
+
+function view_chart(divisa_primary){
     var idu = <?php echo $id_user;?>;
     $.ajax({
         type: "GET",
-        url: '../json/grafica.php?action=1&idu='+ idu, 
+        url: '../json/grafica.php?action=1&idu='+ idu+'&divi='+divisa_primary,
         dataType: "json",
         success: function(data){
             //console.log(data);
@@ -435,7 +470,7 @@ function view_chart(){
 
     $.ajax({
         type: "GET",
-        url: '../json/grafica.php?action=2&idu='+ idu, 
+        url: '../json/grafica.php?action=2&idu='+ idu+'&divi='+divisa_primary, 
         dataType: "json",
         success: function(data){
             //console.log(data);
@@ -529,6 +564,104 @@ function view_chart(){
             });
         }
     });
+
+    $.ajax({
+        type: "GET",
+        url: '../json/grafica.php?action=3&idu='+ idu+'&divi='+divisa_primary, 
+        dataType: "json",
+        success: function(data){
+            //console.log(data);
+            var data2 = {};
+            var value = [];
+            JSON.parse(JSON.stringify(data)).forEach(function(d) {
+                data2[d.categoria] = d.cantidad;
+                value.push(d.categoria);
+            });
+            //console.log(data2);
+            var chart1 = c3.generate({
+            bindto: '#campaign-v4',
+            data: {
+                json: [data2],
+                keys: {
+                    value: value
+                },
+
+                type: 'donut',
+                tooltip: {
+                    show: true
+                }
+            },
+            donut: {
+                label: {
+                    show: false
+                },
+                title: 'Ahorros',
+                width: 18
+            },
+
+            legend: {
+                hide: true
+            },
+            color: {
+                pattern: [
+                    '#5f76e8',
+                    '#ff4f70',
+                    '#01caf1',
+                    '#ff7f0e',
+                    '#ffbb78',
+                    '#2ca02c',
+                    '#98df8a',
+                    '#d62728',
+                    '#ff9896',
+                    '#9467bd',
+                    '#c5b0d5',
+                    '#8c564b',
+                    '#c49c94',
+                    '#e377c2',
+                    '#f7b6d2',
+                    '#7f7f7f',
+                    '#c7c7c7',
+                    '#bcbd22',
+                    '#dbdb8d',
+                    '#17becf',
+                    '#9edae5'
+                ]
+            }
+            });
+        },
+        error: function (data) {
+            var chart1 = c3.generate({
+            bindto: '#campaign-v3',
+            data: {
+                columns: [
+                    ['Sin egresos', 1],
+                ],
+
+                type: 'donut',
+                tooltip: {
+                    show: true
+                }
+            },
+            donut: {
+                label: {
+                    show: false
+                },
+                title: 'Egresos',
+                width: 18
+            },
+
+            legend: {
+                hide: true
+            },
+            color: {
+                pattern: [
+                    '#edf2f6'
+                ]
+            }
+            });
+        }
+    });
     d3.select('#campaign-v2 .c3-chart-arcs-title').style('font-family', 'Rubik');
     d3.select('#campaign-v3 .c3-chart-arcs-title').style('font-family', 'Rubik');
+    d3.select('#campaign-v4 .c3-chart-arcs-title').style('font-family', 'Rubik');
 };

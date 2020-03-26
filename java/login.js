@@ -23,6 +23,10 @@ function log_in(){
                 window.location="/pages/dashboard.php";
             } else if (data == 400) {
                 document.getElementById("uname").className = "form-control is-invalid";
+                document.getElementById("mensaje").innerHTML = "<div class='alert alert-danger' role='alert'>" +
+                "El usuario no existe!</div>";
+            } else if (data == 450) {
+                document.getElementById("uname").className = "form-control is-invalid";
                 document.getElementById("pwd").className = "form-control is-invalid";
                 document.getElementById("mensaje").innerHTML = "<div class='alert alert-danger' role='alert'>" +
                 "Usuario o contraseña incorrecta!</div>";

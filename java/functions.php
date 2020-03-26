@@ -205,6 +205,7 @@ if (document.getElementById("ModalCategora")) {
 	var aux = 0;
 	load_data_cat(0, idu);
 	PostCategoria("consult_cate.php", "categoria");
+	load_data_balance();
 	setInterval(function(){
 		var url = window.location.href;
 		var div = url.split("#");
@@ -223,7 +224,6 @@ if (document.getElementById("ModalCategora")) {
 
 if (document.getElementById("ModalAccount")) {
 	var idu = <?php echo $id_user; ?>;
-
 	$("#save_account").click(function(){
 		var nombre = document.getElementById("nombre").value;
 		var descripcion = document.getElementById("descripcion").value;
@@ -267,19 +267,7 @@ if (document.getElementById("ModalAccount")) {
 							sub = 0;
 						}
 						load_data(sub, idu);
-						$.ajax({
-							type: "GET",
-							url: '../json/consult.php?action=4&idu='+idu, 
-							dataType: "json",
-							success: function(data){
-								document.getElementById("balance").innerHTML = "";
-								$.each(data,function(key, registro) {
-									var utilidad_bal = registro.utilidad_bal;
-									$("#balance").append("<i class='fas fa-credit-card mr-2 ml-1'></i>"+
-											"My Balance <p class='float-right'>" + utilidad_bal + "</p>");
-									});
-							}
-						});
+						load_data_balance();
 					} else {
 						alert("Error: " + data);
 					}
@@ -306,6 +294,7 @@ if (document.getElementById("ModalAccount")) {
 						sub = 0;
 					}
 					load_data(sub, idu);
+					load_data_balance();
 			},
 				error: function(data) {
 					$('#ModalDeletAcco').modal('hide');
@@ -367,19 +356,7 @@ if (document.getElementById("ModalAccount")) {
 								sub = 0;
 							}
 							load_data(sub, idu);
-							$.ajax({
-								type: "GET",
-								url: '../json/consult.php?action=4&idu='+idu, 
-								dataType: "json",
-								success: function(data){
-									document.getElementById("balance").innerHTML = "";
-									$.each(data,function(key, registro) {
-										var utilidad_bal = registro.utilidad_bal;
-										$("#balance").append("<i class='fas fa-credit-card mr-2 ml-1'></i>"+
-												"My Balance <p class='float-right'>" + utilidad_bal + "</p>");
-										});
-								}
-							});
+							load_data_balance();
 						} else {
 							alert("Error: " + data);
 						}
@@ -426,7 +403,7 @@ if (document.getElementById("ModalAccount")) {
 								"<a href='movimientos.php?account="+registro.id+"' class='btn btn-rounded btn-success mr-1'>"+
 									"<i class='fas fa-sign-out-alt mr-2'></i>Entrar</a>"+
 								"<button class='btn btn-circle btn-primary mr-1' onclick='edit_account("+registro.id+","+'"'+registro.nombre+'"'+
-								","+'"'+registro.descripcion+'"'+","+'"'+registro.divisa+'"'+","+registro.cantidad_int+","+registro.cuenta_ahorro+")'>"+
+								","+'"'+registro.descripcion+'"'+","+'"'+registro.divisa+'"'+","+registro.monto_inicial+","+registro.cuenta_ahorro+")'>"+
 									"<i class='far fa-edit'></i></button>"+
 								"<button class='btn btn-circle btn-danger' onclick='delete_account("+registro.id+","+'"'+registro.nombre+'"'+")'>"+
 									"<i class='fas fa-trash-alt'></i></button>"+
@@ -461,6 +438,7 @@ if (document.getElementById("ModalAccount")) {
 	};
 	var aux = 0;
 	load_data(0, idu);
+	load_data_balance();
 	setInterval(function(){
 		var url = window.location.href;
 		var div = url.split("#");
@@ -484,6 +462,7 @@ if (document.getElementById("table_move_acc")){
 	rellenar_table_move_acc();
 	PostTitleMovi("consult_title_movi.php?action=1&id="+sub);
 	PostDescAcc("consult_title_movi.php?action=2&id="+sub);
+	load_data_balance();
 	function rellenar_table_move_acc(){
 		$.ajax({
 			type: "GET",
@@ -697,6 +676,7 @@ if (document.getElementById("table_move_acc")){
 						document.getElementById("categoria").value = 0;
 						$('#table_move_acc').dataTable().fnDestroy();
 						rellenar_table_move_acc();
+						load_data_balance();
 					} else {
 						alert("Error: " + data);
 					}
@@ -718,6 +698,7 @@ if (document.getElementById("table_move_acc")){
 					$('#ModalDelete').modal('hide');
 					$('#table_move_acc').dataTable().fnDestroy();
 					rellenar_table_move_acc();
+					load_data_balance();
 				},
 				error: function(data) {
 					alert("No se guardaron los cambios.");
@@ -763,6 +744,7 @@ if (document.getElementById("table_move_acc")){
 					$('#ModalEdit').modal('hide');
 					$('#table_move_acc').dataTable().fnDestroy();
 					rellenar_table_move_acc();
+					load_data_balance();
 				},
 				error: function(data) {
 					alert("No se guardaron los cambios.");
@@ -816,6 +798,7 @@ if (document.getElementById("table_move_acc")){
 					$('#ModalTransEdit').modal('hide');
 					$('#table_move_acc').dataTable().fnDestroy();
 					rellenar_table_move_acc();
+					load_data_balance();
 				}
 			});
 		});
@@ -844,33 +827,6 @@ if (document.getElementById("table_move_acc")){
 
 		document.getElementById("trans_fecha").value = formattedDateTime;
 
-	});
-	$('#add_trans_btn').click(function(){
-		var url = window.location.href;
-		var div = url.split("=");
-		var sub = div[1];
-		PostCuentas("consult_accont.php", "trans_cuenta_fin");
-		PostCuentas('consult_accont.php?act='+sub, "trans_cuenta_ini");
-		var now = new Date($.now())
-			, year
-			, month
-			, date
-			, hours
-			, minutes
-			, seconds
-			, formattedDateTime
-			;
-
-		year = now.getFullYear();
-		month = now.getMonth().toString().length === 1 ? '0' + (now.getMonth() + 1).toString() : now.getMonth() + 1;
-		date = now.getDate().toString().length === 1 ? '0' + (now.getDate()).toString() : now.getDate();
-		hours = now.getHours().toString().length === 1 ? '0' + now.getHours().toString() : now.getHours();
-		minutes = now.getMinutes().toString().length === 1 ? '0' + now.getMinutes().toString() : now.getMinutes();
-		seconds = now.getSeconds().toString().length === 1 ? '0' + now.getSeconds().toString() : now.getSeconds();
-
-		formattedDateTime = year + '-' + month + '-' + date + 'T' + hours + ':' + minutes + ':' + seconds;
-
-		document.getElementById("trans_fecha").value = formattedDateTime;
 	});
     $("trans_monto_signal").click(function(){
 		var signal = document.getElementById("dash_trans_monto_signal");
@@ -940,6 +896,7 @@ if (document.getElementById("table_move_acc")){
 						document.getElementById("trans_cuenta_fin").value = 0;
 						$('#table_move_acc').dataTable().fnDestroy();
 						rellenar_table_move_acc();
+						load_data_balance();
 					} else {
 						alert("Error: " + data);
 					}
@@ -1084,17 +1041,30 @@ function val_session(idu){
         window.location = "/";
     }
 };
-
-$.ajax({
-	type: "GET",
-	url: '../json/consult.php?action=4&idu='+idu, 
-	dataType: "json",
-	success: function(data){
-		document.getElementById("balance").innerHTML = "";
-		$.each(data,function(key, registro) {
-			var utilidad_bal = registro.utilidad_bal;
-			$("#balance").append("<i class='fas fa-credit-card mr-2 ml-1'></i>"+
-                    "My Balance <p class='float-right'>" + utilidad_bal + "</p>");
+function load_data_balance(){
+	$.ajax({
+		type: "GET",
+		url: '../json/consult.php?action=4&idu='+idu, 
+		dataType: "json",
+		success: function(data){
+			document.getElementById("balance").innerHTML = "";
+			$("#balance").append("<a class='dropdown-item' href='/pages/profile.php'><i "+
+				" class='fas fa-user mr-2 ml-1'></i>"+
+				"My Profile</a>"
+			);
+			$.each(data,function(key, registro) {
+				var utilidad_bal = registro.utilidad_bal;
+				$("#balance").append("<a class='dropdown-item row' style ='margin: 0px;'>"+
+					"<i class='fas fa-credit-card mr-2 ml-1'></i>"+
+					"Balance <p class='float-right'>" + utilidad_bal + " "+ registro.divisa +"</p>"+
+					"</a>"
+				);
 			});
-	}
-});
+			$("#balance").append("<div class='dropdown-divider'></div>"+
+				"<a class='dropdown-item' href='/'><i "+
+				" class='fas fa-power-off mr-2 ml-1'></i>"+
+				"Logout</a>"
+			);
+		}
+	});
+};

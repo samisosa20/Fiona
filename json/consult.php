@@ -31,8 +31,8 @@ function list_account(){
         $id_user = $_GET['idu'];
         $lvl = $_GET['lvl'];
         $strsql = "SELECT a.id, nombre, FORMAT(IF(SUM(valor) IS NULL, 0, SUM(valor)) + monto_inicial, 2)
-        AS cantidad,  IF(SUM(valor) IS NULL, 0, SUM(valor)) + monto_inicial
-        AS cantidad_int, a.descripcion, a.divisa, a.cuenta_ahorro FROM fionadb.cuentas AS a 
+        AS cantidad,  IF(SUM(valor) IS NULL, 0, SUM(valor)) + a.monto_inicial
+        AS cantidad_int, a.descripcion, a.divisa, a.cuenta_ahorro, a.monto_inicial FROM fionadb.cuentas AS a 
         LEFT JOIN fionadb.movimientos AS b ON (a.id = cuenta and a.id_user = b.id_user)
         WHERE a.id_user='$id_user' GROUP BY nombre, b.divisa";
         $rs = mysqli_query($conn, $strsql);
@@ -75,8 +75,29 @@ function consolidado(){
         echo "Error: Ups! Hubo problemas con la conexión.  Favor de intentar nuevamente.";
     } else {
         $id_user = $_GET['idu'];
-        $strsql = "SELECT ingreso, Egresos, utilidad, FORMAT(utilidad,2) AS utilidad_bal 
-        FROM fionadb.consolidado WHERE id_user='$id_user'";
+        $strsql = "SELECT ingreso, Egresos, utilidad, FORMAT(utilidad,2) AS utilidad_bal,
+        divisa FROM fionadb.consolidado WHERE id_user='$id_user' GROUP BY divisa";
+        $rs = mysqli_query($conn, $strsql);
+        $total_rows = $rs->num_rows;
+        if ($total_rows > 0 ) {
+            while ($row = $rs->fetch_object()){
+                $data[] = $row;
+            }
+            echo(json_encode($data));
+        }
+    }
+};
+
+function consolidado_card(){
+    include_once('../conexions/connect.php'); 
+    // Check connection
+    if ( mysqli_connect_errno() ) {
+        echo "Error: Ups! Hubo problemas con la conexión.  Favor de intentar nuevamente.";
+    } else {
+        $id_user = $_GET['idu'];
+        $divi =  $_GET['divi'];
+        $strsql = "SELECT ingreso, Egresos, utilidad, FORMAT(utilidad,2) AS utilidad_bal,
+        divisa FROM fionadb.consolidado WHERE id_user='$id_user' and divisa='$divi'";
         $rs = mysqli_query($conn, $strsql);
         $total_rows = $rs->num_rows;
         if ($total_rows > 0 ) {
@@ -100,6 +121,9 @@ switch($action) {
         break;
     case 4:
         consolidado();
+        break;
+    case 5:
+        consolidado_card();
         break;
 }
 ?>

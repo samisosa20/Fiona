@@ -65,8 +65,9 @@
                     </div>
                     <div class="col-5 align-self-center">
                         <div class="customize-input float-right">
-                            <select class="custom-select custom-select-set form-control bg-white border-0 custom-shadow custom-radius">
-                                <option selected>Dic 20</option>
+                            <select id="select_divisa" onchange= "load_card(this.value)"
+                            class="custom-select custom-select-set form-control bg-white border-0 custom-shadow custom-radius">
+
                             </select>
                         </div>
                     </div>
