@@ -60,9 +60,7 @@
                     <div class="col-5 align-self-center">
                         <div class="customize-input float-right">
                             <select class="custom-select custom-select-set form-control bg-white border-0 custom-shadow custom-radius">
-                                <option selected>Aug 19</option>
-                                <option value="1">July 19</option>
-                                <option value="2">Jun 19</option>
+                                <option selected>Dic 20</option>
                             </select>
                         </div>
                     </div>
@@ -141,6 +139,77 @@
 							<button type="button" class="btn btn-light"
 								data-dismiss="modal">Cerrar</button>
 							<button type="button" id="save_cate" class="btn btn-primary">Guardar</button>
+						</div>
+					</div><!-- /.modal-content -->
+				</div><!-- /.modal-dialog -->
+			</div><!-- /.modal -->
+            <div id="ModalDeletCatego" class="modal fade" tabindex="-1" role="dialog"
+				aria-labelledby="myModalLabel" aria-hidden="true">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h4 class="modal-title" id="myModalLabel">Eliminar categoria</h4>
+							<button type="button" class="close" data-dismiss="modal"
+								aria-hidden="true">×</button>
+						</div>
+						<div id="text_delete_catego" class="modal-body">
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-light"
+								data-dismiss="modal">Cerrar</button>
+							<button type="button" id="btn_delete_categoria" class="btn btn-danger">Eliminar</button>
+						</div>
+					</div><!-- /.modal-content -->
+				</div><!-- /.modal-dialog -->
+            </div><!-- /.modal -->
+            <div id="ModalEditCatego" class="modal fade" tabindex="-1" role="dialog"
+				aria-labelledby="myModalLabel" aria-hidden="true">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h4 class="modal-title" id="myModalLabel">Editor de categorias</h4>
+							<button type="button" class="close" data-dismiss="modal"
+								aria-hidden="true">×</button>
+						</div>
+						<div class="modal-body">
+                            <div class="col-sm-12 col-md-12 col-lg-12 mt-2">
+								<div class="form-group mb-4">
+									<label class="mr-sm-2" for="edit_nombre">Nombre</label>
+									<input type="text" class="form-control custom-radius custom-shadow border-0" id="edit_nombre">
+								</div>
+							</div>
+							<div class="col-sm-12 col-md-12 col-lg-12 mt-2">
+								<div class="form-group mb-4">
+									<label class="mr-sm-2" for="edit_descripcion">Descripción</label>
+									<textarea class="form-control" id="edit_descripcion" rows="3" placeholder="Escribe aqui una descripción..."></textarea>
+								</div>
+							</div>
+                            <div class="col-sm-12 col-md-12 col-lg-12 mt-2">
+								<div class="form-group mb-4">
+									<label class="mr-sm-2" for="edit_grupo">Grupo</label>
+									<select class="custom-select mr-sm-2 custom-radius custom-shadow border-0"
+									id="edit_grupo">
+										<option value="0" selected>Selecciona una opción</option>
+										<option value="1">Gastos fijos</option>
+										<option value="2">Gastos personales</option>
+                                        <option value="3">Ahorros</option>
+                                        <option value="4">Ingresos</option>
+									</select>
+								</div>
+							</div>
+							<div class="col-sm-12 col-md-12 col-lg-12 mt-2">
+								<div class="form-group mb-4">
+									<label class="mr-sm-2" for="edit_categoria">Incluirlo en una categoria</label>
+									<select class="custom-select mr-sm-2 custom-radius custom-shadow border-0"
+									id="edit_categoria">
+									</select>
+								</div>
+							</div>
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-light"
+								data-dismiss="modal">Cerrar</button>
+							<button type="button" id="btn_edit_cate" class="btn btn-primary">Guardar</button>
 						</div>
 					</div><!-- /.modal-content -->
 				</div><!-- /.modal-dialog -->
