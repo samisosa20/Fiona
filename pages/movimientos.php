@@ -82,9 +82,11 @@
 					<div class="col-12">
 						<div class="card">
 							<div class="card-body">
-								<div class="float-left mb-2">
-									<strong>Descripción:</strong> 
+								<div class="float-left mb-2 col-sm-4">
 									<p id="descri_acc"></p>
+								</div>
+								<div class="float-left mb-2 col-sm-4">
+									<p id="balance_acc"></p>
 								</div>
 								<button type="button"
 										class="btn waves-effect waves-light btn-rounded float-right btn-success"
@@ -213,7 +215,7 @@
 									<button class="btn btn-outline-success" id="trans_monto_signal" value="+" type="button">+</button>
 								</div>
 								<div class="custom-file">
-									<input type="number" step="0.02" min="0" onchange="signo('trans_valor', 'trans_monto_signal')" class="form-control" id="trans_valor">
+									<input type="number" step="0.02" min="0" onchange="signo('trans_valor', '')" class="form-control" id="trans_valor">
 								</div>
 								<div class="col-md-3">
 									<select id="trans_divisa"
@@ -345,7 +347,7 @@
 									<button class="btn btn-outline-success" id="Edit_trans_monto_signal" value="+" type="button">+</button>
 								</div>
 								<div class="custom-file">
-									<input type="number" step="0.02" min="0" onchange="signo('Edit_trans_valor', 'Edit_trans_monto_signal')" class="form-control" id="Edit_trans_valor">
+									<input type="number" step="0.02" min="0" onchange="signo('Edit_trans_valor', '')" class="form-control" id="Edit_trans_valor">
 								</div>
 								<div class="col-md-3">
 									<select id="Edit_trans_divisa"
