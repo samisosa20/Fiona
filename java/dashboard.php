@@ -76,23 +76,23 @@ function load_card(divisa_primary){
                     utilidad = 0 + ' K';
                 }
                 if (ingreso >= 1000 && ingreso < 1000000){
-                    ingreso = ingreso / 1000 + " K";
+                    ingreso = (ingreso / 1000).toFixed(2) + " K";
                 } else if (ingreso >= 1000000){
-                    ingreso = ingreso / 1000000 + " M";
+                    ingreso = (ingreso / 1000000).toFixed(2) + " M";
                 }
                 if (egreso <= -1000 && egreso > -1000000){
-                    egreso = egreso / 1000 + " K";
+                    egreso = (egreso / 1000).toFixed(2) + " K";
                 } else if (egreso <= -1000000){
-                    egreso = egreso / 1000000 + " M";
+                    egreso = (egreso / 1000000).toFixed(2) + " M";
                 }
                 if (utilidad >= 1000 && utilidad < 1000000){
-                    utilidad = utilidad / 1000 + " K";
+                    utilidad = (utilidad / 1000).toFixed(2) + " K";
                 } else if (utilidad >= 1000000){
-                    utilidad = utilidad / 1000000 + " M";
+                    utilidad = (utilidad / 1000000).toFixed(2) + " M";
                 } else if (utilidad <= -1000 && utilidad > -1000000){
-                    utilidad = utilidad / 1000 + " K";
+                    utilidad = (utilidad / 1000).toFixed(2) + " K";
                 } else if (utilidad <= -1000000){
-                    utilidad = utilidad / 1000000 + " M";
+                    utilidad = (utilidad / 1000000).toFixed(2) + " M";
                 }
                 $("#lbl_ingreso").append("<h2 class='text-dark mb-1 font-weight-medium'><sup " +
                     "class='set-doller'>$</sup>"+ingreso+"</h2>");
@@ -122,13 +122,13 @@ function load_card(divisa_primary){
                 }
 
                 if (ahorro >= 1000 && ahorro < 1000000){
-                    ahorro = ahorro / 1000 + " K";
+                    ahorro = (ahorro / 1000).toFixed(2) + " K";
                 } else if (ahorro >= 1000000){
-                    ahorro = ahorro / 1000000 + " M";
+                    ahorro = (ahorro / 1000000).toFixed(2) + " M";
                 } else if (ahorro <= -1000 && ahorro > -1000000){
-                    ahorro = ahorro / 1000 + " K";
+                    ahorro = (ahorro / 1000).toFixed(2) + " K";
                 } else if (ahorro <= -1000000){
-                    ahorro = ahorro / 1000000 + " M";
+                    ahorro = (ahorro / 1000000).toFixed(2) + " M";
                 }
 
                 $("#lbl_ahorros").append("<h2 class='text-dark mb-1 font-weight-medium'><sup " +
@@ -348,10 +348,6 @@ function signo(id, id2){
         signal.value = "-";
         signal.className = "btn btn-outline-danger";
         document.getElementById(id).value = nro * -1;
-    } else {
-        signal.innerHTML = "+";
-        signal.value = "+";
-        signal.className = "btn btn-outline-success";
     }
 };
 function val_session(idu){
@@ -606,8 +602,8 @@ function view_chart(divisa_primary){
             var data2 = {};
             var value = [];
             JSON.parse(JSON.stringify(data)).forEach(function(d) {
-                data2[d.categoria] = d.cantidad;
-                value.push(d.categoria);
+                data2[d.nombre] = d.cantidad;
+                value.push(d.nombre);
             });
             var chart1 = c3.generate({
             bindto: '#campaign-v4',

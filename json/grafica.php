@@ -49,9 +49,9 @@ function ahorros(){
     } else {
         $id_user = $_GET['idu'];
         $divi = $_GET['divi'];
-        $strsql = "SELECT b.categoria, SUM(valor) AS cantidad FROM fionadb.movimientos AS a
-        JOIN fionadb.categorias AS b ON (a.categoria = b.id and a.id_user = b.id_user) WHERE grupo= 4
-        and a.id_user='$id_user' and divisa='$divi' GROUP BY b.categoria";
+        $strsql = "SELECT nombre, SUM(valor) + monto_inicial AS cantidad FROM fionadb.cuentas AS a JOIN fionadb.movimientos AS b
+        ON(a.id_user = b.id_user and b.cuenta = a.id) WHERE a.id_user='yvPiz' and b.divisa='COP'
+        and cuenta_ahorro = 1 GROUP BY nombre";
         $rs = mysqli_query($conn, $strsql);
         $total_rows = $rs->num_rows;
         if ($total_rows > 0 ) {
