@@ -688,7 +688,95 @@ function view_chart(divisa_primary){
             });
         }
     });
+    $('#movimientos-diarios').empty();
+    $('#movimientos-diarios').append("<div class='d-flex align-items-start'>"+
+            "<h4 class='card-title mb-0'>Movimientos Diarios</h4>"+
+        "</div>"+
+        "<canvas id='line-chart' height='150'></canvas>");
+    $.ajax({
+        type: "GET",
+        url: '../json/grafica.php?action=4&idu='+ idu+'&divi='+divisa_primary, 
+        dataType: "json",
+        success: function(data){
+            //console.log(data);
+            var fechas = [];
+            var val_ingre = [];
+            var val_egre = [];
+            JSON.parse(JSON.stringify(data)).forEach(function(d) {
+                fechas.push(d.fecha);
+                val_ingre.push(d.ingresos);
+                val_egre.push(d.egresos);
+            });
+            new Chart(document.getElementById("line-chart"), {
+                type: 'line',
+                data: {
+                    labels: fechas,
+                    datasets: [{ 
+                        data: val_ingre,
+                        label: "Ingresos",
+                        borderColor: "#22ca80",
+                        fill: false
+                    }, { 
+                        data: val_egre,
+                        label: "Egresos",
+                        borderColor: "#ff4f70",
+                        fill: false
+                    }
+                    ]
+                },
+                options: {
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                // Include a dollar sign in the ticks
+                                callback: function(value, index, values) {
+                                    if (value < 1000000){
+                                        return value / 1000 + 'k';
+                                    } else {
+                                        return value / 1000000 + 'M';
+                                    }
+                                }
+                            }
+                        }]
+                    }
+                }
+	});
+        },
+        error: function (data) {
+            var chart1 = c3.generate({
+            bindto: '#campaign-v4',
+            data: {
+                columns: [
+                    ['Sin Ahorros', 1],
+                ],
+
+                type: 'donut',
+                tooltip: {
+                    show: true
+                }
+            },
+            donut: {
+                label: {
+                    show: false
+                },
+                title: 'Ahorros',
+                width: 18
+            },
+
+            legend: {
+                hide: true
+            },
+            color: {
+                pattern: [
+                    '#edf2f6'
+                ]
+            }
+            });
+        }
+    });
+    
     d3.select('#campaign-v2 .c3-chart-arcs-title').style('font-family', 'Rubik');
     d3.select('#campaign-v3 .c3-chart-arcs-title').style('font-family', 'Rubik');
     d3.select('#campaign-v4 .c3-chart-arcs-title').style('font-family', 'Rubik');
+
 };
