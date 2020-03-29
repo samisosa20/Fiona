@@ -528,6 +528,7 @@ if (document.getElementById("table_move_acc")){
   	};
 	$("#add_move_btn").click(function(){
 		getPagina("consult_cate.php", "categoria");
+		getPagina("consult_divisa.php?id="+sub, "divisa");
 		var now = new Date($.now())
 			, year
 			, month
@@ -782,6 +783,7 @@ if (document.getElementById("table_move_acc")){
 	$('#add_trans_btn').click(function(){
 		getPagina("consult_accont.php", "trans_cuenta_ini");
 		getPagina("consult_accont.php", "trans_cuenta_fin");
+		getPagina("consult_divisa.php?id="+sub, "trans_divisa");
 		var now = new Date($.now())
 			, year
 			, month

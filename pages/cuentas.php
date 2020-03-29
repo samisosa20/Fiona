@@ -124,6 +124,13 @@
 										<option value="0" selected>Selecciona una opción</option>
 										<option value="COP">COP</option>
 										<option value="USD">USD</option>
+                                        <option value="EUR">EUR</option>
+                                        <option value="JPY">JPY</option>
+                                        <option value="GBD">GBD</option>
+                                        <option value="CAD">CAD</option>
+                                        <option value="AUD">AUD</option>
+                                        <option value="MXN">MXN</option>
+                                        <option value="ILS">ILS</option>
 									</select>
 								</div>
                             </div>
@@ -180,6 +187,13 @@
 										<option value="0" selected>Selecciona una opción</option>
 										<option value="COP">COP</option>
 										<option value="USD">USD</option>
+                                        <option value="EUR">EUR</option>
+                                        <option value="JPY">JPY</option>
+                                        <option value="GBD">GBD</option>
+                                        <option value="CAD">CAD</option>
+                                        <option value="AUD">AUD</option>
+                                        <option value="MXN">MXN</option>
+                                        <option value="ILS">ILS</option>
 									</select>
 								</div>
                             </div>

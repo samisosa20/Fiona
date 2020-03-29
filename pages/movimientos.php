@@ -163,8 +163,6 @@
 								<div class="col-md-3">
 									<select id="divisa"
                                         class="custom-select form-control bg-white custom-radius custom-shadow border-0">
-                                        <option selected>COP</option>
-                                        <option >USD</option>
                                     </select>
 								</div>
 							</div>
