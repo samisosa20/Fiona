@@ -14,6 +14,7 @@
 	<!-- This page css -->
 	<!-- Custom CSS -->
 	<link href="../dist/css/style.min.css" rel="stylesheet">
+	<link href="../assets/extra-libs/datatables.net-bs4/css/dataTables.bootstrap4.css" rel="stylesheet">
 	<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
 	<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
 	<!--[if lt IE 9]>
@@ -67,6 +68,18 @@
 					</div>
 				</div>
 			</div>
+			<div class="page-breadcrumb mb-3">
+				<button type="button"
+						class="btn waves-effect waves-light btn-rounded float-right btn-success mb-2"
+						data-target="#ModalTransDash" id="add_trans_btn" data-toggle="modal">
+						<i class="fas fa-exchange-alt mr-2"></i>Transferencia
+				</button>
+				<button type="button"
+						class="btn waves-effect waves-light btn-rounded btn-primary float-right mb-2 mr-1"
+						data-target="#ModalAdd" id="add_move_btn" data-toggle="modal">
+						<i class="fas fa-plus mr-2"></i>Movimeinto
+				</button>
+            </div>
 			<!-- ============================================================== -->
 			<!-- End Bread crumb and right sidebar toggle -->
 			<!-- ============================================================== -->
@@ -82,24 +95,14 @@
 					<div class="col-12">
 						<div class="card">
 							<div class="card-body">
-								<div class="float-left mb-2 col-sm-4">
+								<div id="div_descri_acc" class="float-left mb-2 col-sm-6">
 									<p id="descri_acc"></p>
 								</div>
-								<div class="float-left mb-2 col-sm-4">
+								<div class="float-left mb-2 col-sm-6">
 									<p id="balance_acc"></p>
 								</div>
-								<button type="button"
-										class="btn waves-effect waves-light btn-rounded float-right btn-success"
-										data-target="#ModalTransDash" id="add_trans_btn" data-toggle="modal">
-										<i class="fas fa-exchange-alt mr-2"></i>Transferencia
-								</button>
-								<button type="button"
-										class="btn waves-effect waves-light btn-rounded btn-primary float-right mb-2 mr-2"
-										data-target="#ModalAdd" id="add_move_btn" data-toggle="modal">
-										<i class="fas fa-plus mr-2"></i>Ingresar
-								</button>
 								<div class="table-responsive">
-									<table id="table_move_acc" class="table table-striped table-bordered display no-wrap"
+									<table id="table_move_acc" class="table table-striped table-bordered no-wrap"
 										style="width:100%">
 										<thead>
 											<tr>

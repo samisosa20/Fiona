@@ -608,14 +608,14 @@ if (document.getElementById("table_move_acc")){
 		if (monto_signal == '-'){
 			valor = valor * -1;
 		}
-		if (valor == "" || valor == 0 || divisa == "" || categoria == "" || fecha == "") {
+		if (valor == "" || valor == 0 || divisa == "" || categoria == 0 || fecha == "") {
 			if (valor == "" || valor == 0){
 				document.getElementById("valor").className = "form-control is-invalid";
 			}
 			if (divisa == "") {
 				document.getElementById("divisa").className = "custom-select form-control bg-white custom-radius custom-shadow border-0 is-invalid";
 			}
-			if (categoria == "") {
+			if (categoria == 0) {
 				document.getElementById("categoria").className = "custom-select mr-sm-2 custom-radius custom-shadow border-0 is-invalid";
 			}
 			if (fecha == "") {
