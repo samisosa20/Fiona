@@ -104,9 +104,6 @@
                                     </div>
                                     <h6 class="text-muted font-weight-normal mb-0 w-100 text-truncate">Ingresos</h6>
                                 </div>
-                                <div class="ml-auto mt-md-3 mt-lg-0">
-                                    <span class="opacity-7 text-muted"><i data-feather="user-plus"></i></span>
-                                </div>
                             </div>
                         </div>
                     </div>
@@ -117,9 +114,6 @@
                                     <div id="lbl_egreso" class="d-inline-flex align-items-center">
                                     </div>
                                     <h6 class="text-muted font-weight-normal mb-0 w-100 text-truncate">Egresos</h6>
-                                </div>
-                                <div class="ml-auto mt-md-3 mt-lg-0">
-                                    <span class="opacity-7 text-muted"><i data-feather="dollar-sign"></i></span>
                                 </div>
                             </div>
                         </div>
@@ -132,9 +126,6 @@
                                     </div>
                                     <h6 class="text-muted font-weight-normal mb-0 w-100 text-truncate">Ahorros</h6>
                                 </div>
-                                <div class="ml-auto mt-md-3 mt-lg-0">
-                                    <span class="opacity-7 text-muted"><i data-feather="file-plus"></i></span>
-                                </div>
                             </div>
                         </div>
                     </div>
@@ -145,9 +136,6 @@
                                     <div id="lbl_utilidad" class="d-inline-flex align-items-center">
                                     </div>
                                     <h6 class="text-muted font-weight-normal mb-0 w-100 text-truncate">Utilidad</h6>
-                                </div>
-                                <div class="ml-auto mt-md-3 mt-lg-0">
-                                    <span class="opacity-7 text-muted"><i data-feather="globe"></i></span>
                                 </div>
                             </div>
                         </div>
@@ -163,7 +151,15 @@
                     <div class="col-lg-4 col-md-12">
                         <div class="card">
                             <div class="card-body">
-                                <h4 class="card-title">Total Ingresos</h4>
+                                <h4 class="card-title">Total Ingresos
+                                    <i class="fas fa-info-circle ml-1" data-container="body" style="color: #01caf1;"
+                                        title="Grafico ingresos" data-toggle="popover" data-placement="top"
+                                        data-content="Mira como se destribuye tus ingresos, toca cualquier color
+                                        para saber que categoria es con su porcentaje de participacion. Ej: 
+                                        La categoria Salario tiene un 90%, lo que significa, que el 90% de mis
+                                        ingresos corresponde por Salario">
+                                    </i>
+                                </h4>
                                 <div id="campaign-v2" class="mt-2" style="height:283px; width:100%;"></div>
                             </div>
                         </div>
@@ -171,7 +167,15 @@
                     <div class="col-lg-4 col-md-12">
                         <div class="card">
                             <div class="card-body">
-                                <h4 class="card-title">Total Egresos</h4>
+                                <h4 class="card-title">Total Egresos
+                                    <i class="fas fa-info-circle ml-1" data-container="body" style="color: #01caf1;"
+                                        title="Grafico egresos" data-toggle="popover" data-placement="top"
+                                        data-content="Mira como se destribuye tus egresos, toca cualquier color
+                                        para saber que categoria es con su porcentaje de participacion. Ej: 
+                                        La categoria Arriendo tiene un 50%, lo que significa, que la mitad de mis
+                                        ingresos es destinado a pagar el arriendo.">
+                                    </i>
+                                </h4>
                                 <div id="campaign-v3" class="mt-2" style="height:283px; width:100%;"></div>
                             </div>
                         </div>
@@ -179,7 +183,15 @@
                     <div class="col-lg-4 col-md-12">
                         <div class="card">
                             <div class="card-body">
-                                <h4 class="card-title">Total Ahorros</h4>
+                                <h4 class="card-title">Total Ahorros
+                                    <i class="fas fa-info-circle ml-1" data-container="body" style="color: #01caf1;"
+                                        title="Grafico ahorros" data-toggle="popover" data-placement="top"
+                                        data-content="Mira como se destribuye tus ahorros, toca cualquier color
+                                        para saber que cuenta es con su porcentaje de participacion. Ej: 
+                                        La cuenta CDT tiene un 50%, lo que significa, que la mitad de mis
+                                        ahorros se encuentran en el CDT.">
+                                    </i>
+                                </h4>
                                 <div id="campaign-v4" class="mt-2" style="height:283px; width:100%;"></div>
                             </div>
                         </div>
