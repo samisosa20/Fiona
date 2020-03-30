@@ -78,14 +78,14 @@
             <!-- ============================================================== -->
             <div class="page-breadcrumb mb-3">
                 <button type="button"
-                        class="btn waves-effect waves-light btn-rounded float-right btn-success"
+                        class="btn waves-effect waves-light btn-rounded float-right btn-success mb-2"
                         data-target="#ModalTransDash" id="add_trans_btn" data-toggle="modal">
                         <i class="fas fa-exchange-alt mr-2"></i>Transferencia
                 </button>
                 <button type="button"
-                        class="btn waves-effect waves-light btn-rounded float-right btn-primary mr-2"
+                        class="btn waves-effect waves-light btn-rounded float-right btn-primary mr-1 mb-2"
                         data-target="#ModalAddDash" id="add_move_btn" data-toggle="modal">
-                        <i class="fas fa-plus mr-2"></i>Ingresar
+                        <i class="fas fa-plus mr-2"></i>Movimiento
                 </button>
             </div>
             <!-- ============================================================== -->
