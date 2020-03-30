@@ -116,8 +116,9 @@ function ahorrado(){
     } else {
         $id_user = $_GET['idu'];
         $divi =  $_GET['divi'];
-        $strsql = "SELECT SUM(valor) + monto_inicial AS cantidad FROM fionadb.cuentas AS a JOIN fionadb.movimientos AS b
-        ON(a.id_user = b.id_user and b.cuenta = a.id) WHERE a.id_user='$id_user' and b.divisa='$divi'
+        $strsql = "SELECT IF(SUM(valor) IS NULL, 0, SUM(valor)) + monto_inicial AS cantidad 
+        FROM fionadb.cuentas AS a LEFT JOIN fionadb.movimientos AS b
+        ON(a.id_user = b.id_user and b.cuenta = a.id) WHERE a.id_user='$id_user' and a.divisa='$divi'
         and cuenta_ahorro = 1";
         $rs = mysqli_query($conn, $strsql);
         $total_rows = $rs->num_rows;
