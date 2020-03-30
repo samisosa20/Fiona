@@ -210,14 +210,14 @@ $('#add_move_btn').click(function(){
 		if (monto_signal == '-'){
 			valor = valor * -1;
 		}
-		if (valor == "" || valor == 0 || divisa == "" || cuenta == 0 || categoria == "" || fecha == "") {
+		if (valor == "" || valor == 0 || divisa == "" || cuenta == 0 || categoria == 0 || fecha == "") {
 			if (valor == "" || valor == 0){
 				document.getElementById("dash_valor").className = "form-control is-invalid";
 			}
 			if (divisa == "") {
 				document.getElementById("dash_divisa").className = "custom-select form-control bg-white custom-radius custom-shadow border-0 is-invalid";
 			}
-			if (categoria == "") {
+			if (categoria == 0) {
 				document.getElementById("dash_categoria").className = "custom-select mr-sm-2 custom-radius custom-shadow border-0 is-invalid";
 			}
             if (cuenta == 0) {
