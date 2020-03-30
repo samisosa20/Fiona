@@ -164,14 +164,13 @@ if (document.getElementById("ModalCategora")) {
 				$.each(data,function(key, registro) {
 					$("#card_catego").append("<div class='card col-md-6'>"+
 						"<div class='card-body' style='padding-left: 10px; padding-right: 10px;'>"+
-							"<i class='fas fa-trash-alt float-right' onclick='delete_catego("+registro.id+","+'"'+registro.categoria+'"'+")' style='color: red;'></i>"+
-							"<i class='far fa-edit float-right mr-1' onclick='edit_categoria("+registro.id+","+'"'+registro.categoria+'"'+","+'"'+registro.descripcion+'"'+","+registro.grupo+","+registro.sub_categoria+")'"+
+							"<i class='icon-arrow-right float-right mt-3 ml-2 fa-2x'></i>"+
+							"<i class='fas fa-trash-alt float-right mt-4' onclick='delete_catego("+registro.id+","+'"'+registro.categoria+'"'+")' style='color: red;'></i>"+
+							"<i class='far fa-edit float-right mr-1 mt-4' onclick='edit_categoria("+registro.id+","+'"'+registro.categoria+'"'+","+'"'+registro.descripcion+'"'+","+registro.grupo+","+registro.sub_categoria+")'"+
 							" style='color: #5f76e8;'></i>"+
 							"<a href='#"+registro.id+"'>"+
 								"<div class='row'>"+
-									"<h3 class='card-title col-md-9 col-lg-9 col-xl-9'>"+registro.categoria+"</h3>"+
-									"<h4 class='card-title col-md-3 col-lg-3 col-xl-3'>"+registro.cantidad+
-										"<i class='icon-arrow-right ml-2'></i></h4>"+
+									"<h3 class='card-title col-md-9 col-lg-9 col-xl-9 mt-3'>"+registro.categoria+"</h3>"+
 								"</div>"+
 							"</a>"+
 						"</div>"+
@@ -181,8 +180,8 @@ if (document.getElementById("ModalCategora")) {
 					"<a class='card' id='add_categoria' data-target='#ModalCategora' data-toggle='modal'>"+
 						"<div class='card-body'>"+
 							"<div class='row'>"+
-								"<h3 class='card-title col-md-9 col-lg-9 col-xl-9 text-muted'><i class='fas fa-plus mr-2'></i>Nueva categoria</h3>"+
-								"<h4 class='card-title col-md-3 col-lg-3 col-xl-3 text-muted'><i class='icon-arrow-right'></i></h4>"+
+								"<div class='col-md-9 col-lg-9 col-xl-9'><h3 class='card-title text-muted'><i class='fas fa-plus mr-2'></i>Nueva categoria</h3></div>"+
+								"<div class='col-md-12 col-lg-12 col-xl-12' style='position: absolute;'><h4 class='card-title text-muted fa-2x float-right'><i class='icon-arrow-right'></i></h4></div>"+
 							"</div>"+
 						"</div>"+
 					"</a>"+

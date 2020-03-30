@@ -14,6 +14,11 @@
     <!-- This page css -->
     <!-- Custom CSS -->
     <link href="../dist/css/style.min.css" rel="stylesheet">
+    <style>
+        .popover {
+            white-space: pre-line;    
+        }
+    </style>
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -115,7 +120,14 @@
 							</div>
                             <div class="col-sm-12 col-md-12 col-lg-12 mt-2">
 								<div class="form-group mb-4">
-									<label class="mr-sm-2" for="grupo">Grupo</label>
+									<label class="mr-sm-2" for="grupo">Grupo
+                                        <i class="fas fa-info-circle ml-1" data-container="body" style="color: #01caf1;"
+                                            title="Grupo" data-toggle="popover" data-placement="top"
+                                            data-content="Gastos fijos: son todo que podemos estimar.
+                                            Gastos personales: son todo aquellos que no se puede estimar.
+                                            Ej: Electricidad, alquiler, celular, peluquería, parqueadero, gasolina son gastos fijos">
+                                        </i>
+                                    </label>
 									<select class="custom-select mr-sm-2 custom-radius custom-shadow border-0"
 									id="grupo">
 										<option value="0" selected>Selecciona una opción</option>
@@ -128,7 +140,14 @@
 							</div>
 							<div class="col-sm-12 col-md-12 col-lg-12 mt-2">
 								<div class="form-group mb-4">
-									<label class="mr-sm-2" for="categoria">Incluirlo en una categoria</label>
+									<label class="mr-sm-2" for="categoria">Incluirlo dentro de una categoria
+                                        <i class="fas fa-info-circle ml-1" data-container="body" style="color: #01caf1;"
+                                            title="Sub-categoria" data-toggle="popover" data-placement="top"
+                                            data-content="Incluir una categoria dentro de otra ayuda a entender el comportamiento de los gastos.
+                                            Ej: categoria principal es vehiculo y dentro de esa categoria existe gasolina, parqueadero, seguro, mantenimiento, etc.
+                                            Para la categoria gasolina incluyo dentro de la categoria vehiculo.">
+                                        </i>
+                                    </label>
 									<select class="custom-select mr-sm-2 custom-radius custom-shadow border-0"
 									id="categoria">
 									</select>
