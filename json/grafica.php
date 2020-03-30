@@ -50,7 +50,7 @@ function ahorros(){
         $id_user = $_GET['idu'];
         $divi = $_GET['divi'];
         $strsql = "SELECT nombre, SUM(valor) + monto_inicial AS cantidad FROM fionadb.cuentas AS a JOIN fionadb.movimientos AS b
-        ON(a.id_user = b.id_user and b.cuenta = a.id) WHERE a.id_user='yvPiz' and b.divisa='COP'
+        ON(a.id_user = b.id_user and b.cuenta = a.id) WHERE a.id_user='$id_user' and b.divisa='$divi'
         and cuenta_ahorro = 1 GROUP BY nombre";
         $rs = mysqli_query($conn, $strsql);
         $total_rows = $rs->num_rows;
