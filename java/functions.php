@@ -514,70 +514,6 @@ if (document.getElementById("ModalAccount")) {
 
 if (document.getElementById("card_presu")) {
 	var idu = <?php echo $id_user; ?>;
-	$("#save_account").click(function(){
-		var nombre = document.getElementById("nombre").value;
-		var descripcion = document.getElementById("descripcion").value;
-		var divisa = document.getElementById("divisa").value;
-		var monto_ini = document.getElementById("monto_ini").value;
-		var acco_save = document.getElementById("account_save").checked;
-		if (nombre == "" || divisa == 0 || monto_ini == "") {
-			if (nombre == ""){
-				document.getElementById("nombre").className = "form-control custom-radius custom-shadow border-0 is-invalid";
-			}
-			if (divisa == 0) {
-				document.getElementById("divisa").className = "custom-select mr-sm-2 custom-radius custom-shadow border-0 is-invalid";
-			}
-			if (monto_ini == ""){
-				document.getElementById("monto_ini").className = "form-control custom-radius custom-shadow border-0 is-invalid";
-			}
-		} else {
-			$.ajax('../conexions/add_account.php', {
-				type: 'POST',  // http method
-				data: { nombre: nombre,
-				descripcion: descripcion,
-				divisa: divisa,
-				acco_save: acco_save,
-				monto_ini: monto_ini },  // data to submit
-				success: function (data, status, xhr) {
-					//console.log('status: ' + status + ', data: ' + data);
-					if (data == 200) {
-						$('#ModalAccount').modal('hide');
-						document.getElementById("nombre").className = "form-control custom-radius custom-shadow border-0";
-						document.getElementById("divisa").className = "custom-select mr-sm-2 custom-radius custom-shadow border-0";
-						document.getElementById("monto_ini").className = "form-control custom-radius custom-shadow border-0";
-						document.getElementById("nombre").value = "";
-						document.getElementById("descripcion").value = "";
-						document.getElementById("divisa").value = 0;
-						document.getElementById("monto_ini").value = 0;
-						document.getElementById("account_save").checked = false;
-						var url = window.location.href;
-						var div = url.split("#");
-						var sub = div[1];
-						if (!sub){
-							sub = 0;
-						}
-						load_data(sub, idu);
-						load_data_balance();
-						$.ajax({
-							type: "GET",
-							url: '../json/consult.php?action=7&idu='+idu, 
-							dataType: "json",
-							success: function(data){
-								//console.log(data);
-								$.each(data,function(key, registro) {
-									if (registro.cuentas == 1){
-										$("#ModalCongratuAccon").modal('show');
-									}
-								});   
-							}
-						}); 
-					} else {
-						alert("Error: " + data);
-					}
-				}
-			});
-		}
-	});
 	function delete_account(id, nombre){
 		document.getElementById("text_delete_acco").innerHTML=
 		"Esta segur@ de eliminar la cuenta: <strong>" + nombre + "</strong>, si lo hace, " +
@@ -668,7 +604,7 @@ if (document.getElementById("card_presu")) {
 			}
 		});
 	};
-	function load_data(lvl, idu){
+	function load_data(idu){
 		document.getElementById("card_presu").innerHTML = "";
 		$.ajax({
 			type: "GET",
@@ -678,16 +614,15 @@ if (document.getElementById("card_presu")) {
 				$.each(data,function(key, registro) {
 					$("#card_presu").append("<div class='col-md-6'>"+
 						"<div class='card'>"+
-							"<div class='card-body'>"+
+							"<div class='card-body' style='padding: 20px;'>"+
 								"<div class='row'>"+
-									"<h3 class='card-title col-md-6 col-lg-6 col-xl-6'>"+registro.nombre+"</h3>"+
-									"<h4 class='card-title col-md-6 col-lg-6 col-xl-6'>$ "+registro.cantidad+"</h4>"+
+									"<h3 class='card-title col-md-12 col-lg-12 col-xl-12'>Presupuesto "+registro.year+"</h3>"+
 								"</div>"+
-								"<div class='row'>"+
-									"<p class='card-text col-6'>Divisas: "+registro.divisa+"</p>"+
-									"<p class='card-text col-6'></p>"+
+								"<div class='row mb-1'>"+
+									"<p class='card-text col-12 text-success'>Ingresos: $ "+registro.ingreso+"</p>"+
+									"<p class='card-text col-12 text-danger'>Egresos: $ "+registro.egreso+"</p>"+
 								"</div>"+
-								"<a href='movimientos.php?account="+registro.id+"' class='btn btn-rounded btn-success mr-1'>"+
+								"<a href='movimientos.php?account="+registro.year+"' class='btn btn-rounded btn-success mr-1'>"+
 									"<i class='fas fa-sign-out-alt mr-2'></i>Entrar</a>"+
 								"<button class='btn btn-circle btn-primary mr-1' onclick='edit_account("+registro.id+","+'"'+registro.nombre+'"'+
 								","+'"'+registro.descripcion+'"'+","+'"'+registro.divisa+'"'+","+registro.monto_inicial+","+registro.cuenta_ahorro+")'>"+
@@ -738,23 +673,9 @@ if (document.getElementById("card_presu")) {
 			}
 		}); 
 	}
-	var aux = 0;
-	load_data(0, idu);
 	load_data_balance();
 	val_new_acco(idu);
-	setInterval(function(){
-		var url = window.location.href;
-		var div = url.split("#");
-		var sub = div[1];
-		if (!sub){
-			sub = 0;
-		}
-		if (sub != aux){
-			var idu = <?php echo $id_user; ?>;
-			aux = sub;
-			load_data(sub, idu);
-		}
-	}, 1000);
+	load_data(idu);
 };
 
 if (document.getElementById("form_presu")){

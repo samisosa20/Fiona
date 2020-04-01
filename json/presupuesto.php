@@ -6,8 +6,11 @@ function list_year(){
         echo "Error: Ups! Hubo problemas con la conexión.  Favor de intentar nuevamente.";
     } else {
         $id_user = $_GET['idu'];
-        $strsql = "SELECT DISTINCT(year) AS ano FROM fionadb.presupuesto WHERE
-        id_user='$id_user' ORDER BY year ASC";
+        $strsql = "SELECT year, FORMAT(SUM(if(grupo = 4, valor, 0)),2) AS ingreso, 
+        FORMAT(SUM(if(grupo = 1 or grupo = 2, valor, 0)),2) AS egreso 
+        FROM fionadb.presupuesto p 
+        JOIN fionadb.categorias c ON (p.categoria = c.id and p.id_user = c.id_user)
+        WHERE p.id_user='$id_user' GROUP BY year ORDER BY year ASC";
         $rs = mysqli_query($conn, $strsql);
         $total_rows = $rs->num_rows;
         if ($total_rows > 0 ) {
