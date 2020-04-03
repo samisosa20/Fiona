@@ -220,6 +220,7 @@ $('#add_move_btn').click(function(){
 						document.getElementById("dash_valor").value = "";
 						document.getElementById("dash_monto_signal").value = "+";
 						document.getElementById("dash_monto_signal").innerHTML = "+";
+                        document.getElementById("dash_monto_signal").className = "btn btn-outline-success";
 						document.getElementById("dash_divisa").value = "COP";
 						document.getElementById("dash_descripcion").value = "";
                         document.getElementById("dash_cuenta").value = 0;
