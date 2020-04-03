@@ -98,6 +98,35 @@
                                             id="email_profile" readonly placeholder="nombre@correo.com">
                                     </div>
                                 </div>
+                                <div class="row mb-2">
+                                    <label for="divisa"
+                                        class="col-sm-2 col-form-label">Divisa por defecto</label>
+                                    <div class="col-sm-10">
+                                    <select class="custom-select mr-sm-2 mt-2 custom-radius 
+                                     text-dark custom-shadow border-0" id="divisa">
+										<option value="COP">COP</option>
+										<option value="USD">USD</option>
+                                        <option value="EUR">EUR</option>
+                                        <option value="JPY">JPY</option>
+                                        <option value="GBD">GBD</option>
+                                        <option value="CAD">CAD</option>
+                                        <option value="AUD">AUD</option>
+                                        <option value="MXN">MXN</option>
+                                        <option value="ILS">ILS</option>
+									</select>
+                                    </div>
+                                </div>
+                                <div class="dropdown-divider"></div>
+                                <div class="row mb-2">
+                                    <label for="photo_profile"
+                                        class="col-sm-2 col-form-label">Foto de perfil</label>
+                                    <div class="input-group mb-3 col-sm-10">
+                                        <div class="custom-file">
+                                            <input type="file" class="custom-file-input" id="photo_profile">
+                                            <label class="custom-file-label" for="photo_profile">Subir foto</label>
+                                        </div>
+                                    </div>
+                                </div>
                                 <div class="dropdown-divider"></div>
                                 <div class="row mb-2">
                                     <label for="pass_1"
