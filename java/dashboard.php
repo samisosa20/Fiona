@@ -62,6 +62,10 @@ function load_data(reload){ // 1 to reload divisas and 0 to not reaload
                     }
                 }
             });
+            $("#balance").append("<a class='dropdown-item' onclick='screen_home()'><i "+
+                " class='fas fa-plus-square mr-2 ml-1'></i>"+
+                "Add to home screen</a>"
+            );
             $("#balance").append("<div class='dropdown-divider'></div>"+
                 "<a class='dropdown-item' href='/'><i "+
                 " class='fas fa-power-off mr-2 ml-1'></i>"+
