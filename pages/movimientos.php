@@ -52,8 +52,8 @@
 						<div class="d-flex align-items-center">
 							<nav aria-label="breadcrumb">
 								<ol class="breadcrumb m-0 p-0">
-									<li class="breadcrumb-item"><a href="dashboard.php" class="text-muted">Dashboard</a></li>
-									<li class="breadcrumb-item"><a href="cuentas.php" class="text-muted">Cuentas</a></li>
+									<li class="breadcrumb-item"><a href="dashboard" class="text-muted">Dashboard</a></li>
+									<li class="breadcrumb-item"><a href="cuentas" class="text-muted">Cuentas</a></li>
 									<li class="breadcrumb-item text-muted active" aria-current="page">Movimientos</li>
 								</ol>
 							</nav>

@@ -10,7 +10,7 @@
     <meta name="author" content="">
     <!-- Favicon icon -->
     <link rel="icon" type="image/png" sizes="16x16" href="../assets/images/favicon.png">
-    <title>Fiona - Presupuesto</title>
+    <title>Fiona - Presupuesto <?php echo $_GET['yr'];?></title>
     <!-- This page css -->
     <!-- Custom CSS -->
     <link href="../dist/css/style.min.css" rel="stylesheet">
@@ -47,12 +47,13 @@
             <div class="page-breadcrumb">
                 <div class="row">
                     <div class="col-12 align-self-center">
-                        <h4 class="page-title text-truncate text-dark font-weight-medium mb-1">LISTA DE PRESUPUESTO</h4>
+                        <h4 class="page-title text-truncate text-dark font-weight-medium mb-1">PRESUPUESTO <?php echo $_GET['yr'];?></h4>
                         <div class="d-flex align-items-center">
                             <nav aria-label="breadcrumb">
                                 <ol class="breadcrumb m-0 p-0">
-                                    <li class="breadcrumb-item"><a href="dashboard" class="text-muted">Dashboard</a></li>
-                                    <li class="breadcrumb-item text-muted active" aria-current="page">Presupuesto</li>
+                                    <li class="breadcrumb-item"><a href="dashboard.php" class="text-muted">Dashboard</a></li>
+                                    <li class="breadcrumb-item"><a href="presupuesto.php" class="text-muted">Presupuesto</a></li>
+                                    <li class="breadcrumb-item text-muted active" aria-current="page">Presupuesto <?php echo $_GET['yr'];?></li>
                                 </ol>
                             </nav>
                         </div>
@@ -74,7 +75,7 @@
             <!-- ============================================================== -->
             <!-- Container fluid  -->
             <!-- ============================================================== -->
-            <div class="container-fluid">
+            <div class="container-fluid p-3">
                 <!-- ============================================================== -->
                 <!-- Start Page Content -->
                 <!-- ============================================================== -->
@@ -82,10 +83,7 @@
                 <div class="row">
                     <div class="col-12">
                         <div class="card">
-                            <div class="card-body">
-                                <div id="card_presu" class="row">
-                                    
-                                </div>
+                            <div id="add_data_presu" class="card-body">
                             </div>
                         </div>
                     </div>

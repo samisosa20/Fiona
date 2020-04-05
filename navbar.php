@@ -223,22 +223,24 @@ $photo = $_SESSION["photo"];
                 <!-- Sidebar navigation-->
                 <nav class="sidebar-nav">
                     <ul id="sidebarnav">
-                        <li class="sidebar-item"> <a class="sidebar-link sidebar-link" href="dashboard.php"
+                        <li class="sidebar-item"> <a class="sidebar-link sidebar-link" href="dashboard"
                                 aria-expanded="false"><i data-feather="home" class="feather-icon"></i><span
                                     class="hide-menu">DASHBOARD</span></a></li>
                         <li class="list-divider"></li>
-                        <li id="account-list" class="sidebar-item"> <a class="sidebar-link" href="cuentas.php"
+                        <li id="account-list" class="sidebar-item"> <a class="sidebar-link" href="cuentas"
                                 aria-expanded="false"><i data-feather="tag" class="feather-icon"></i><span
                                     class="hide-menu">CUENTAS
                                 </span></a>
                         </li>
-                        <li class="sidebar-item"> <a class="sidebar-link sidebar-link" href="categorias.php"
+                        <li class="sidebar-item"> <a class="sidebar-link sidebar-link" href="categorias"
                                 aria-expanded="false"><i data-feather="message-square" class="feather-icon"></i><span
                                     class="hide-menu">CATEGORIA</span></a></li>
-                        <li class="sidebar-item"> <a class="sidebar-link sidebar-link" href="presupuesto.php"
+                        <li class="sidebar-item"> <a class="sidebar-link sidebar-link" href="presupuesto"
                                 aria-expanded="false"><i data-feather="calendar" class="feather-icon"></i><span
                                     class="hide-menu">PRESUPUESTO</span></a></li>
-
+                        <li class="sidebar-item"> <a class="sidebar-link sidebar-link" href="reportes"
+                                aria-expanded="false"><i data-feather="calendar" class="feather-icon"></i><span
+                                    class="hide-menu">REPORTES</span></a></li>
                         <li class="list-divider"></li>
                         <!--<li class="nav-small-cap"><span class="hide-menu">Configuraciiones</span></li>
                         <li class="sidebar-item"> <a class="sidebar-link has-arrow" href="javascript:void(0)"

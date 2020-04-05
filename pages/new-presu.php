@@ -51,8 +51,8 @@
                         <div class="d-flex align-items-center">
                             <nav aria-label="breadcrumb">
                                 <ol class="breadcrumb m-0 p-0">
-                                    <li class="breadcrumb-item"><a href="dashboard.php" class="text-muted">Dashboard</a></li>
-                                    <li class="breadcrumb-item"><a href="presupuesto.php" class="text-muted">Presupuesto</a></li>
+                                    <li class="breadcrumb-item"><a href="dashboard" class="text-muted">Dashboard</a></li>
+                                    <li class="breadcrumb-item"><a href="presupuesto" class="text-muted">Presupuesto</a></li>
                                     <li class="breadcrumb-item text-muted active" aria-current="page">Creador de presupuesto</li>
                                 </ol>
                             </nav>
@@ -116,7 +116,7 @@
                                         </div>
                                     </div>
                                     <button type="button" id="next_step_1" class="btn btn-primary">Siguiente</button>
-                                    <a href="presupuesto.php"><button type="button" id="finaly_step" 
+                                    <a href="presupuesto"><button type="button" id="finaly_step" 
                                         style="display: none;" class="btn btn-success ml-2">Finalizar</button></a>
                                 </div>
                             </div>

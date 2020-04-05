@@ -696,7 +696,7 @@
                         <div class="modal-footer">
                             <button type="button" class="btn waves-effect waves-light btn-rounded btn-light"
                                 data-dismiss="modal">Cerrar</button>
-                            <a href="categorias.php">
+                            <a href="categorias">
                             <button type="button" class="btn waves-effect waves-light btn-rounded btn-primary">Siguiente</button>
                             </a>
                         </div>

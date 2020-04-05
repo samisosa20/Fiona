@@ -56,7 +56,7 @@
                         <div class="d-flex align-items-center">
                             <nav aria-label="breadcrumb">
                                 <ol class="breadcrumb m-0 p-0">
-                                    <li class="breadcrumb-item"><a href="dashboard.php" class="text-muted">Dashboard</a></li>
+                                    <li class="breadcrumb-item"><a href="dashboard" class="text-muted">Dashboard</a></li>
                                     <li class="breadcrumb-item text-muted active" aria-current="page">Categorías</li>
                                 </ol>
                             </nav>
@@ -311,7 +311,7 @@
                         <div class="modal-footer">
                             <button type="button" class="btn waves-effect waves-light btn-rounded btn-light"
                                 data-dismiss="modal">Cerrar</button>
-                            <a href="cuentas.php">
+                            <a href="cuentas">
                             <button type="button" class="btn waves-effect waves-light btn-rounded btn-primary">Siguiente</button>
                             </a>
                         </div>
