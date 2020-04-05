@@ -1,0 +1,146 @@
+<?php
+function consolidado(){
+    include_once('../conexions/connect.php'); 
+    // Check connection
+    if ( mysqli_connect_errno() ) {
+        echo "Error: Ups! Hubo problemas con la conexión.  Favor de intentar nuevamente.";
+    } else {
+        $id_user = $_GET['idu'];
+        $divi = $_GET['divi'];
+        $fecha_ini = $_GET['fecha_ini'];
+        $fecha_fin = $_GET['fecha_fin'];
+        $strsql = "SELECT nombre, FORMAT(SUM(IF(valor > 0, valor, 0)),2) AS ingreso, 
+        FORMAT(SUM(IF(valor < 0, valor, 0)),2) AS egreso, 
+        SUM(valor) AS utilidad, a.divisa, a.id_user
+        FROM fionadb.movimientos AS a JOIN fionadb.cuentas AS b ON(a.id_user = b.id_user and a.cuenta = b.id) 
+        WHERE a.id_user = '$id_user' and a.divisa = '$divi' and
+        fecha>='$fecha_ini' and fecha<='$fecha_fin' GROUP BY a.cuenta, a.divisa";
+        $rs = mysqli_query($conn, $strsql);
+        $total_rows = $rs->num_rows;
+        if ($total_rows > 0 ) {
+            while ($row = $rs->fetch_object()){
+                $data[] = $row;
+            }
+            echo(json_encode($data));
+        }
+    }
+};
+
+function ingreso(){
+    include_once('../conexions/connect.php'); 
+    // Check connection
+    if ( mysqli_connect_errno() ) {
+        echo "Error: Ups! Hubo problemas con la conexión.  Favor de intentar nuevamente.";
+    } else {
+        $id_user = $_GET['idu'];
+        $divi = $_GET['divi'];
+        $fecha_ini = $_GET['fecha_ini'];
+        $fecha_fin = $_GET['fecha_fin'];
+        $strsql = "SELECT b.categoria, SUM(valor) AS cantidad FROM fionadb.movimientos AS a
+        JOIN fionadb.categorias AS b ON (a.categoria = b.id and a.id_user = b.id_user) WHERE grupo= 4
+        and a.id_user='$id_user' and divisa='$divi' and
+        fecha>='$fecha_ini' and fecha<='$fecha_fin' GROUP BY b.categoria";
+        $rs = mysqli_query($conn, $strsql);
+        $total_rows = $rs->num_rows;
+        if ($total_rows > 0 ) {
+            while ($row = $rs->fetch_object()){
+                $data[] = $row;
+            }
+            echo(json_encode($data));
+        }
+    }
+};
+
+function egreso(){
+    include_once('../conexions/connect.php'); 
+    // Check connection
+    if ( mysqli_connect_errno() ) {
+        echo "Error: Ups! Hubo problemas con la conexión.  Favor de intentar nuevamente.";
+    } else {
+        $id_user = $_GET['idu'];
+        $divi = $_GET['divi'];
+        $fecha_ini = $_GET['fecha_ini'];
+        $fecha_fin = $_GET['fecha_fin'];
+        $strsql = "SELECT b.categoria, SUM(valor) AS cantidad FROM fionadb.movimientos AS a
+        JOIN fionadb.categorias AS b ON (a.categoria = b.id and a.id_user = b.id_user) WHERE (grupo= 1
+        or grupo = 2) and a.id_user='$id_user' and divisa='$divi' and
+        fecha>='$fecha_ini' and fecha<='$fecha_fin' GROUP BY b.categoria";
+        $rs = mysqli_query($conn, $strsql);
+        $total_rows = $rs->num_rows;
+        if ($total_rows > 0 ) {
+            while ($row = $rs->fetch_object()){
+                $data[] = $row;
+            }
+            echo(json_encode($data));
+        }
+    }
+};
+
+function ahorros(){
+    include_once('../conexions/connect.php'); 
+    // Check connection
+    if ( mysqli_connect_errno() ) {
+        echo "Error: Ups! Hubo problemas con la conexión.  Favor de intentar nuevamente.";
+    } else {
+        $id_user = $_GET['idu'];
+        $divi = $_GET['divi'];
+        $fecha_ini = $_GET['fecha_ini'];
+        $fecha_fin = $_GET['fecha_fin'];
+        $strsql = "SELECT nombre, SUM(valor) + monto_inicial AS cantidad FROM fionadb.cuentas AS a JOIN fionadb.movimientos AS b
+        ON(a.id_user = b.id_user and b.cuenta = a.id) WHERE a.id_user='$id_user' and b.divisa='$divi' and
+        fecha>='$fecha_ini' and fecha<='$fecha_fin' and cuenta_ahorro = 1 GROUP BY nombre";
+        $rs = mysqli_query($conn, $strsql);
+        $total_rows = $rs->num_rows;
+        if ($total_rows > 0 ) {
+            while ($row = $rs->fetch_object()){
+                $data[] = $row;
+            }
+            echo(json_encode($data));
+        }
+    }
+};
+
+function top_gasto(){
+    include_once('../conexions/connect.php'); 
+    // Check connection
+    if ( mysqli_connect_errno() ) {
+        echo "Error: Ups! Hubo problemas con la conexión.  Favor de intentar nuevamente.";
+    } else {
+        $id_user = $_GET['idu'];
+        $divi =  $_GET['divi'];
+        $fecha_ini = $_GET['fecha_ini'];
+        $fecha_fin = $_GET['fecha_fin'];
+        $strsql = "SELECT b.categoria, SUM(valor) AS cantidad, a.divisa, a.id_user
+        FROM fionadb.movimientos AS a JOIN fionadb.categorias AS b ON(a.id_user = b.id_user and a.categoria = b.id) 
+        WHERE a.id_user = '$id_user' and a.divisa = '$divi' and fecha>='$fecha_ini' and fecha<='$fecha_fin' and valor < 0
+        and id_transfe IS NULL GROUP BY a.categoria, a.divisa ORDER BY cantidad ASC LIMIT 10";
+        $rs = mysqli_query($conn, $strsql);
+        $total_rows = $rs->num_rows;
+        if ($total_rows > 0 ) {
+            while ($row = $rs->fetch_object()){
+                $data[] = $row;
+            }
+            echo(json_encode($data));
+        }
+    }
+};
+
+$action = $_GET['action'];
+switch($action) {
+    case 1: 
+        consolidado();
+        break;
+    case 2:
+        ingreso();
+        break;
+    case 3:
+        egreso();
+        break;
+    case 4:
+        ahorros();
+        break;
+    case 5:
+        top_gasto();
+        break;
+}
+?>
