@@ -88,7 +88,10 @@ function getPagina(strURLop, div) {
 function UpdatePage(str, div){
     document.getElementById(div).innerHTML = str ;
 };
-
+$("#search_report").click(function(){
+    var divisa_primary = <?php echo $divisa_primary;?>;
+    view_chart(divisa_primary);
+})
 $('#screen_android').click(function(){
     $("#ModalScreen").modal("hide");
     $("#ModalScreenAndroid").modal("show");
@@ -98,6 +101,8 @@ function view_chart(divisa_primary){
     var idu = <?php echo $id_user;?>;
     var fecha_ini = document.getElementById("fecha_ini").value;
     var fecha_fin = document.getElementById("fecha_fin").value;
+    document.getElementById("resumen").innerHTML = "";
+    document.getElementById("top_10").innerHTML = "";
     //Grafica Ingreso
     $.ajax({
         type: "GET",
@@ -422,8 +427,7 @@ function view_chart(divisa_primary){
         }
     });
     //TOP 10
-    console.log('../json/reportes?action=5&idu='+ idu+'&divi='+divisa_primary+
-        '&fecha_ini='+fecha_ini+'&fecha_fin='+fecha_fin);
+
     $.ajax({
         type: "GET",
         url: '../json/reportes?action=5&idu='+ idu+'&divi='+divisa_primary+
