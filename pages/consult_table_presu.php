@@ -11,7 +11,7 @@ echo "<table class='table table-hover' style='width: 100%;'>
 <thead>
     <tr class='text-dark'>
         <th>CATEGORIA</th>
-        <th>VALOR</th>
+        <th>VALOR ANUAL</th>
     </tr>
 </thead>
 <tbody>";

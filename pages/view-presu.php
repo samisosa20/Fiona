@@ -51,8 +51,8 @@
                         <div class="d-flex align-items-center">
                             <nav aria-label="breadcrumb">
                                 <ol class="breadcrumb m-0 p-0">
-                                    <li class="breadcrumb-item"><a href="dashboard.php" class="text-muted">Dashboard</a></li>
-                                    <li class="breadcrumb-item"><a href="presupuesto.php" class="text-muted">Presupuesto</a></li>
+                                    <li class="breadcrumb-item"><a href="dashboard" class="text-muted">Dashboard</a></li>
+                                    <li class="breadcrumb-item"><a href="presupuesto" class="text-muted">Presupuesto</a></li>
                                     <li class="breadcrumb-item text-muted active" aria-current="page">Presupuesto <?php echo $_GET['yr'];?></li>
                                 </ol>
                             </nav>
