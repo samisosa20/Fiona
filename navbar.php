@@ -239,7 +239,7 @@ $photo = $_SESSION["photo"];
                                 aria-expanded="false"><i data-feather="calendar" class="feather-icon"></i><span
                                     class="hide-menu">PRESUPUESTO</span></a></li>
                         <li class="sidebar-item"> <a class="sidebar-link sidebar-link" href="reportes"
-                                aria-expanded="false"><i data-feather="calendar" class="feather-icon"></i><span
+                                aria-expanded="false"><i data-feather="bar-chart" class="feather-icon"></i><span
                                     class="hide-menu">REPORTES</span></a></li>
                         <li class="list-divider"></li>
                         <!--<li class="nav-small-cap"><span class="hide-menu">Configuraciiones</span></li>
