@@ -39,11 +39,11 @@ function load_data(reload){ // 1 to reload divisas and 0 to not reaload
     }
     $.ajax({
         type: "GET",
-        url: '../json/consult.php?action=4&idu='+idu, 
+        url: '../json/consult?action=4&idu='+idu, 
         dataType: "json",
         success: function(data){
             document.getElementById("balance").innerHTML = "";
-            $("#balance").append("<a class='dropdown-item' href='/pages/profile.php'><i "+
+            $("#balance").append("<a class='dropdown-item' href='/pages/profile'><i "+
                 " class='fas fa-user mr-2 ml-1'></i>"+
                 "My Profile</a>"
             );
@@ -83,7 +83,7 @@ function load_card(divisa_primary){
     document.getElementById("lbl_ahorros").innerHTML = "";
     $.ajax({
         type: "GET",
-        url: '../json/consult.php?action=5&idu='+idu+'&divi='+divisa_primary, 
+        url: '../json/consult?action=5&idu='+idu+'&divi='+divisa_primary, 
         dataType: "json",
         success: function(data){
             //console.log(data);
@@ -116,7 +116,7 @@ function load_card(divisa_primary){
     });
     $.ajax({
         type: "GET",
-        url: '../json/consult.php?action=6&idu='+idu+'&divi='+divisa_primary, 
+        url: '../json/consult?action=6&idu='+idu+'&divi='+divisa_primary, 
         dataType: "json",
         success: function(data){
             //console.log(data);
@@ -139,8 +139,8 @@ function load_card(divisa_primary){
 };
 
 $('#add_move_btn').click(function(){
-    getPagina("consult_cate.php", "dash_categoria");
-    getPagina("consult_accont.php", "dash_cuenta");
+    getPagina("consult_cate", "dash_categoria");
+    getPagina("consult_accont", "dash_cuenta");
     var now = new Date($.now())
         , year
         , month
@@ -202,7 +202,7 @@ $('#add_move_btn').click(function(){
 				document.getElementById("dash_fecha").className = "form-control custom-radius custom-shadow border-0 is-invalid";
 			}
 		} else {
-			$.ajax('../conexions/add_transaccion.php', {
+			$.ajax('../conexions/add_transaccion', {
 				type: 'POST',
 				data: {
 					cuenta: cuenta,
@@ -238,12 +238,12 @@ $('#add_move_btn').click(function(){
 		}
 	});
     $("#dash_cuenta").change(function(){
-        getPagina("consult_divisa.php?id="+this.value, "dash_divisa");
+        getPagina("consult_divisa?id="+this.value, "dash_divisa");
     });
 });
 $('#add_trans_btn').click(function(){
-    getPagina("consult_accont.php", "dash_trans_cuenta_fin");
-    getPagina("consult_accont.php", "dash_trans_cuenta_ini");
+    getPagina("consult_accont", "dash_trans_cuenta_fin");
+    getPagina("consult_accont", "dash_trans_cuenta_ini");
     var now = new Date($.now())
         , year
         , month
@@ -305,7 +305,7 @@ $('#add_trans_btn').click(function(){
 				document.getElementById("dash_trans_fecha").className = "form-control custom-radius custom-shadow border-0 is-invalid";
 			}
 		} else {
-			$.ajax('../conexions/add_movi_cuenta.php', {
+			$.ajax('../conexions/add_movi_cuenta', {
 				type: 'POST',
 				data: {
 					cuenta_ini: cuenta_ini,
@@ -340,7 +340,7 @@ $('#add_trans_btn').click(function(){
 		}
 	});
     $("#dash_trans_cuenta_ini").change(function(){
-        getPagina("consult_divisa.php?id="+this.value, "dash_trans_divisa");
+        getPagina("consult_divisa?id="+this.value, "dash_trans_divisa");
     });
 });
 $('#screen_android').click(function(){
@@ -367,7 +367,7 @@ function view_chart(divisa_primary){
     var idu = <?php echo $id_user;?>;
     $.ajax({
         type: "GET",
-        url: '../json/grafica.php?action=1&idu='+ idu+'&divi='+divisa_primary,
+        url: '../json/grafica?action=1&idu='+ idu+'&divi='+divisa_primary,
         dataType: "json",
         success: function(data){
             //console.log(data);
@@ -464,7 +464,7 @@ function view_chart(divisa_primary){
 
     $.ajax({
         type: "GET",
-        url: '../json/grafica.php?action=2&idu='+ idu+'&divi='+divisa_primary, 
+        url: '../json/grafica?action=2&idu='+ idu+'&divi='+divisa_primary, 
         dataType: "json",
         success: function(data){
             //console.log(data);
@@ -561,7 +561,7 @@ function view_chart(divisa_primary){
 
     $.ajax({
         type: "GET",
-        url: '../json/grafica.php?action=3&idu='+ idu+'&divi='+divisa_primary, 
+        url: '../json/grafica?action=3&idu='+ idu+'&divi='+divisa_primary, 
         dataType: "json",
         success: function(data){
             //console.log(data);
@@ -662,7 +662,7 @@ function view_chart(divisa_primary){
     );
     $.ajax({
             type: "GET",
-            url: '../json/grafica.php?action=4&idu='+ idu+'&divi='+divisa_primary, 
+            url: '../json/grafica?action=4&idu='+ idu+'&divi='+divisa_primary, 
             dataType: "json",
             success: function(data){
                 //console.log(data);
@@ -743,7 +743,7 @@ function view_chart(divisa_primary){
     });
 
     document.getElementById("activity_current").innerHTML = "";
-    getPagina("consult_activity.php","activity_current");
+    getPagina("consult_activity","activity_current");
     d3.select('#campaign-v2 .c3-chart-arcs-title').style('font-family', 'Rubik');
     d3.select('#campaign-v3 .c3-chart-arcs-title').style('font-family', 'Rubik');
     d3.select('#campaign-v4 .c3-chart-arcs-title').style('font-family', 'Rubik');
@@ -753,7 +753,7 @@ function view_chart(divisa_primary){
 function val_new_user(idu){
     $.ajax({
         type: "GET",
-        url: '../json/consult.php?action=7&idu='+idu, 
+        url: '../json/consult?action=7&idu='+idu, 
         dataType: "json",
         success: function(data){
             //console.log(data);
