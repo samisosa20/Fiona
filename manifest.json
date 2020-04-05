@@ -1,0 +1,18 @@
+{
+  "short_name": "Fiona",
+  "name": "Fiona",
+  "theme_color": "#ffffff",
+  "display": "fullscreen",
+  "author": "Sammy Guttman",
+  "orientation": "portrait",
+  "manifest_version": 2,
+  "version": "0.1",
+  "icons": [
+      {
+      "src": "http://fiona.byethost11.com/assets/images/logo-icon.png",
+      "type": "image/png",
+      "sizes": "48x48"
+      }
+  ],
+  "start_url": "http://fiona.byethost11.com/"
+}
