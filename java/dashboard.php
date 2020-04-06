@@ -855,6 +855,8 @@ function showactivityMonth(id, nombre, mes){
     $("#ModalActivityLvl").modal("hide");
     document.getElementById("bodyActivityMonth").innerHTML = "";
     var divisa_primary = document.getElementById("select_divisa").value;
+    console.log('../json/reportes?action=8&idu='+ idu+'&divi='+divisa_primary+
+        '&account='+nombre+'&mes='+mes+'&sig='+id);
     $.ajax({
         type: "GET",
         url: '../json/reportes?action=8&idu='+ idu+'&divi='+divisa_primary+
@@ -868,16 +870,18 @@ function showactivityMonth(id, nombre, mes){
                             "<h4 class='card-title col-md-12 text-muted mt-2'>"+
                             registro.categoria+"</h3>"+
                             "<h6 class='card-title ml-3 row col-md-12 text-muted'>"+
-                            "<p class='text-success'>"+formatter.format(registro.cantidad)+"</p></h6>"+
+                            "<p class='text-success'>"+formatter.format(registro.cantidad)+
+                            "</p><p class='text-muted ml-1'></p>"+registro.fecha+"</h6>"+
                     "</div>");
                 });
             } else if (id == 2){
                 $.each(data,function(key, registro) {
                     $("#bodyActivityMonth").append("<div class='card border-botton border-right border-left'>"+
-                            "<h4 class='card-title col-md-10 col-lg-10 col-xl-10 text-muted mt-2'>"+
+                            "<h4 class='card-title col-md-12 text-muted mt-2'>"+
                             registro.categoria+"</h3>"+
-                            "<h6 class='card-title ml-3 row col-md-12 col-lg-12 col-xl-12 text-muted'>"+
-                            "<p class='text-danger'>"+formatter.format(registro.cantidad)+"</p></h6>"+
+                            "<h6 class='card-title ml-3 row col-md-12 text-muted'>"+
+                            "<p class='text-danger'>"+formatter.format(registro.cantidad)+
+                            "</p><p class='text-muted ml-1'></p>"+registro.fecha+"</h6>"+
                     "</div>");
                 });
             }

@@ -200,7 +200,7 @@ function move_account_moth(){
         FROM fionadb.movimientos AS a JOIN fionadb.cuentas AS b ON(a.id_user = b.id_user and a.cuenta = b.id) 
         JOIN fionadb.categorias AS c ON (a.id_user = c.id_user and a.categoria =c.id) WHERE a.id_user = '$id_user' 
         and a.divisa = '$divi' and valor $compa 0 and MONTHNAME(fecha) = '$mes'
-        and b.nombre = '$cuenta' GROUP BY a.categoria ORDER BY fecha AS";
+        and b.nombre = '$cuenta' GROUP BY a.categoria ORDER BY fecha ASC";
         $rs = mysqli_query($conn, $strsql);
         $total_rows = $rs->num_rows;
         if ($total_rows > 0 ) {
