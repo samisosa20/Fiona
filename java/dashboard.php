@@ -853,7 +853,7 @@ function showactivitylvl(id, nombre){
 }
 function showactivityMonth(id, nombre, mes){
     $("#ModalActivityLvl").modal("hide");
-    document.getElementById("bodyActivityLvl").innerHTML = "";
+    document.getElementById("bodyActivityMonth").innerHTML = "";
     var divisa_primary = document.getElementById("select_divisa").value;
     $.ajax({
         type: "GET",
@@ -864,7 +864,7 @@ function showactivityMonth(id, nombre, mes){
             //console.log(data);
             if (id == 1){
                 $.each(data,function(key, registro) {
-                    $("#bodyActivityLvl").append("<div class='card border-botton border-right border-left'>"+
+                    $("#bodyActivityMonth").append("<div class='card border-botton border-right border-left'>"+
                             "<h4 class='card-title col-md-12 text-muted mt-2'>"+
                             registro.categoria+"</h3>"+
                             "<h6 class='card-title ml-3 row col-md-12 text-muted'>"+
@@ -873,7 +873,7 @@ function showactivityMonth(id, nombre, mes){
                 });
             } else if (id == 2){
                 $.each(data,function(key, registro) {
-                    $("#bodyActivityLvl").append("<div class='card border-botton border-right border-left'>"+
+                    $("#bodyActivityMonth").append("<div class='card border-botton border-right border-left'>"+
                             "<h4 class='card-title col-md-10 col-lg-10 col-xl-10 text-muted mt-2'>"+
                             registro.categoria+"</h3>"+
                             "<h6 class='card-title ml-3 row col-md-12 col-lg-12 col-xl-12 text-muted'>"+

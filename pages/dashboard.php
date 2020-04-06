@@ -750,7 +750,7 @@
                             <button type="button" class="close" data-dismiss="modal"
                                 aria-hidden="true">×</button>
                         </div>
-                        <div id="bodyActivityLvl" class="modal-body">
+                        <div id="bodyActivityMonth" class="modal-body">
                         
                         </div>
                         <div class="modal-footer">
