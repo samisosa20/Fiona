@@ -78,3 +78,31 @@ function sign_up(){
         });
     }
 };
+$("#btn_forgot").click(function(){
+    forgot_pass();
+});
+function forgot_pass(){
+
+    var email = document.getElementById("email").value.trim();
+    emailRegex = /^[-\w.%+]{1,64}@(?:[A-Z0-9-]{1,63}\.){1,125}[A-Z]{2,63}$/i;
+    if (email == "" || !emailRegex.test(email)){
+        if (!emailRegex.test(email) || email == ""){
+            document.getElementById("email").className = "form-control is-invalid";
+        }
+    } else {
+        $.ajax('conexions/forgot', {
+            type: 'POST',  // http method
+            data: {
+                email: email},  // data to submit
+            success: function (data, status, xhr) {
+                //console.log('status: ' + status + ', data: ' + data);
+                if (data == 200) {
+                    window.location="/";
+                } else {
+                    alert("Error: No se pudo registrar correctamente!. (" + 
+                    data + ")");
+                }
+            }
+        });
+    }
+};
