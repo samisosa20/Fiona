@@ -1,8 +1,11 @@
 <?php
 session_start();
 $id_user = $_SESSION["Id_user"];
+$idu = '"'.$id_user.'"';
 include_once("../conexions/connect.php");
-$insert = "SELECT * FROM Vpresupuesto WHERE id_user = '$id_user' ORDER BY grupo DESC, categoria ASC";
+$year = $_GET["year"];
+$insert = "SELECT * FROM Vpresupuesto WHERE id_user = '$id_user' and year = $year 
+ORDER BY grupo DESC, categoria ASC";
 $ejecutar =mysqli_query( $conn,$insert);
 $aux = "";
 $acumulado = 0;
@@ -18,6 +21,7 @@ echo "<table class='table table-hover' style='width: 100%;'>
 
 while ($lista = mysqli_fetch_array($ejecutar)){
     $cantidad = $lista["cantidad"];
+    $nro_catego = $lista["nro_catego"];
     $categoria = $lista["categoria"];
     $grupo = $lista["grupo"];
     if ($categoria != $aux && $aux != ""){
@@ -35,7 +39,8 @@ while ($lista = mysqli_fetch_array($ejecutar)){
     if ($cantidad == NULL){
         $cantidad = 0;
     }
-    echo "<tr>
+    $name_catego = '"'.$sub_categoria.'"';
+    echo "<tr onclick='edit_presu($nro_catego, $name_catego, $year,$idu)'>
         <th>$sub_categoria</th>
         <th>".formatDollars($cantidad)."</th>
     </tr>";

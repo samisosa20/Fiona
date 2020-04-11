@@ -4,6 +4,12 @@ $id_user = "\"".$_SESSION["Id_user"]."\"";
 ?>
 var idu = <?php echo $id_user;?>;
 val_session(idu);
+const formatter = new Intl.NumberFormat('en-US', {
+  style: 'currency',
+  currency: 'USD',
+  minimumFractionDigits: 2
+});
+
 if (document.getElementById("ModalCategora")) {
 	var idu = <?php echo $id_user; ?>;
 	$("#save_cate").click(function(){
@@ -536,68 +542,6 @@ if (document.getElementById("card_presu")) {
 			});
 		});
 	};
-	function edit_account(id, nombre, descripcion, divisa, cantidad, ahorro){
-		document.getElementById("edit_nombre").value = nombre;
-		document.getElementById("edit_descripcion").value = descripcion;
-		document.getElementById("edit_divisa").value = divisa;
-		document.getElementById("edit_monto_ini").value = cantidad;
-		if (ahorro == 1) {
-			document.getElementById("edit_account_save").checked = true;
-		}
-		$('#ModalEditAcco').modal('show');
-		$('#btn_edit_account').unbind('click').click(function(){
-			nombre= document.getElementById("edit_nombre").value;
-			descripcion= document.getElementById("edit_descripcion").value;
-			divisa= document.getElementById("edit_divisa").value;
-			cantidad= document.getElementById("edit_monto_ini").value;
-			var acco_save = document.getElementById("edit_account_save").checked;
-			if (nombre == "" || divisa == 0 || cantidad == "") {
-				if (nombre == ""){
-					document.getElementById("edit_nombre").className = "form-control custom-radius custom-shadow border-0 is-invalid";
-				}
-				if (divisa == 0) {
-					document.getElementById("edit_divisa").className = "custom-select mr-sm-2 custom-radius custom-shadow border-0 is-invalid";
-				}
-				if (cantidad == ""){
-					document.getElementById("edit_monto_ini").className = "form-control custom-radius custom-shadow border-0 is-invalid";
-				}
-			} else {
-				$.ajax('../conexions/edit_account', {
-					type: 'POST',  // http method
-					data: { nombre: nombre,
-					id: id,
-					descripcion: descripcion,
-					divisa: divisa,
-					acco_save: acco_save,
-					monto_ini: cantidad },  // data to submit
-					success: function (data, status, xhr) {
-						//console.log('status: ' + status + ', data: ' + data);
-						if (data == 200) {
-							$('#ModalEditAcco').modal('hide');
-							document.getElementById("edit_nombre").className = "form-control custom-radius custom-shadow border-0";
-							document.getElementById("edit_divisa").className = "custom-select mr-sm-2 custom-radius custom-shadow border-0";
-							document.getElementById("edit_monto_ini").className = "form-control custom-radius custom-shadow border-0";
-							document.getElementById("edit_nombre").value = "";
-							document.getElementById("edit_descripcion").value = "";
-							document.getElementById("edit_divisa").value = 0;
-							document.getElementById("edit_monto_ini").value = 0;
-							document.getElementById("edit_account_save").checked = false;
-							var url = window.location.href;
-							var div = url.split("#");
-							var sub = div[1];
-							if (!sub){
-								sub = 0;
-							}
-							load_data(sub, idu);
-							load_data_balance();
-						} else {
-							alert("Error: " + data);
-						}
-					}
-				});
-			}
-		});
-	};
 	function load_data(idu){
 		document.getElementById("card_presu").innerHTML = "";
 		$.ajax({
@@ -618,9 +562,6 @@ if (document.getElementById("card_presu")) {
 								"</div>"+
 								"<a href='view-presu?yr="+registro.year+"' class='btn btn-rounded btn-success mr-1'>"+
 									"<i class='fas fa-sign-out-alt mr-2'></i>Entrar</a>"+
-								"<button class='btn btn-circle btn-primary mr-1' onclick='edit_account("+registro.id+","+'"'+registro.nombre+'"'+
-								","+'"'+registro.descripcion+'"'+","+'"'+registro.divisa+'"'+","+registro.monto_inicial+","+registro.cuenta_ahorro+")'>"+
-									"<i class='far fa-edit'></i></button>"+
 								"<button class='btn btn-circle btn-danger' onclick='delete_presu("+registro.year+")'>"+
 									"<i class='fas fa-trash-alt'></i></button>"+
 							"</div>"+
@@ -673,7 +614,130 @@ if (document.getElementById("card_presu")) {
 };
 
 if (document.getElementById("add_data_presu")) {
-	getPagina("consult_table_presu","add_data_presu");
+	var url = window.location.href;
+	var div = url.split("=");
+	var sub = div[1];
+	getPagina("consult_table_presu?year="+sub,"add_data_presu");
+	function edit_presu(catego, name_catego, ano, idu){
+		document.getElementById("ModalRubroLabel").innerHTML = "Presupuesto de " + name_catego;
+		document.getElementById("BodyRubro").innerHTML = "";
+		$.ajax({
+			type: "GET",
+			url: '../json/presupuesto?action=2&idu='+ idu+'&year='+ano+'&catego='+catego,
+			dataType: "json",
+			success: function(data){
+				//console.log(data);
+				$.each(data,function(key, registro) {
+					var mes = registro.mes;
+					var valor = registro.valor;
+					var id = registro.id;
+					var catego = registro.categoria;
+					var name_catego = '"'+registro.name_catego+'"';
+					$("#BodyRubro").append("<div onclick='edit_month_rubro("+id+","+mes+","+valor+","+catego+","+name_catego+")' class='card border-botton border-right border-left'>"+
+							"<h4 class='card-title col-md-12 text-muted mt-2'>"+
+							registro.mes_name+"</h3>"+
+							"<h6 class='card-title ml-3 row col-md-12 text-muted'>"+
+							formatter.format(valor)+"</h6>"+
+					"</div>");
+				});
+			},
+			error: function (data) {
+			}
+		});
+		$("#ModalRubro").modal("show");
+	};
+	function save_edit_rubro_month(id, mes, catego, name_catego){
+		var valor_edit = document.getElementById("valor_edit_presu").value;
+		if (valor_edit < 0 || valor_edit == ""){
+			document.getElementById("valor_edit_presu").className = "form-control custom-radius custom-shadow border-0 is-invalid";
+		} else {
+			$.ajax('../conexions/edit_rubro_month', {
+				type: 'POST',  // http method
+				data: { mes: mes,
+				id: id,
+				valor: valor_edit },  // data to submit
+				success: function (data, status, xhr) {
+					//console.log('status: ' + status + ', data: ' + data);
+					if (data != 200) {
+						alert("Error: " + data);
+					}
+				}
+			});
+			$("#ModalEditRubro").modal("hide");
+			document.getElementById("valor_edit_presu").className = "form-control custom-radius custom-shadow border-0";
+			var url = window.location.href;
+			var div = url.split("=");
+			var sub = div[1];
+			var idu = <?php echo $id_user;?>;
+			edit_presu(catego, name_catego, sub, idu);
+		}
+	};
+	function edit_month_rubro(id, mes, valor, catego, name_catego){
+		var now = new Date($.now())
+			, year
+			, month
+			, date
+			, hours
+			, minutes
+			, seconds
+			, formattedDateTime
+			;
+
+		year = now.getFullYear();
+		month = now.getMonth().toString().length === 1 ? '0' + (now.getMonth() + 1).toString() : now.getMonth() + 1;
+		date = now.getDate().toString().length === 1 ? '0' + (now.getDate()).toString() : now.getDate();
+		hours = now.getHours().toString().length === 1 ? '0' + now.getHours().toString() : now.getHours();
+		minutes = now.getMinutes().toString().length === 1 ? '0' + now.getMinutes().toString() : now.getMinutes();
+		seconds = now.getSeconds().toString().length === 1 ? '0' + now.getSeconds().toString() : now.getSeconds();
+
+		formattedDateTime = year + '-' + month + '-' + date + 'T' + hours + ':' + minutes + ':' + seconds;
+		document.getElementById("BodyEditRubro").innerHTML = "";
+		if (mes < month){
+			document.getElementById("BodyEditRubro").innerHTML = "Este Mes ya paso, Por lo tanto no se puede modificar.";
+			$("#btn_edit_rubro_month").attr('hidden',true);
+		} else {
+			document.getElementById("BodyEditRubro").innerHTML = "<div class='col-sm-12 col-md-12 col-lg-12 mt-2'>"+
+								"<div class='form-group mb-4'>"+
+									"<label class='mr-sm-2' for='mes_edit_presu'>Mes</label>"+
+									"<select disabled class='custom-select mr-sm-2 custom-radius text-dark custom-shadow border-0' id='mes_edit_presu'>"+
+                                        "<option value='0' selected>Selecciona una opción</option>"+
+										"<option value='1'>Enero</option>"+
+										"<option value='2'>Febrero</option>"+
+                                        "<option value='3'>Marzo</option>"+
+                                        "<option value='4'>Abril</option>"+
+                                        "<option value='5'>Mayo</option>"+
+                                        "<option value='6'>Junio</option>"+
+                                        "<option value='7'>Julio</option>"+
+                                        "<option value='8'>Agosto</option>"+
+                                        "<option value='9'>Septiembre</option>"+
+                                        "<option value='10'>Octubre</option>"+
+                                        "<option value='11'>Noviembre</option>"+
+                                        "<option value='12'>Diciembre</option>"+
+									"</select>"+
+								"</div>"+
+                            "</div>"+
+							"<div class='col-sm-12 col-md-12 col-lg-12 mt-2'>"+
+								"<div class='form-group mb-4'>"+
+									"<label class='mr-sm-2' for='valor_edit_presu'>Valor</label>"+
+									"<input type='number' value='0' step='0.01'"+
+									" class='form-control custom-radius custom-shadow border-0' id='valor_edit_presu'>"+
+								"</div>"+
+                            "</div> ";
+			document.getElementById("mes_edit_presu").value = mes;
+			document.getElementById("valor_edit_presu").value = valor;
+			$("#btn_edit_rubro_month").attr('hidden',false);
+			name_catego = '"'+name_catego+'"';
+			document.getElementById("btn_edit_rubro_month").setAttribute("onclick", "save_edit_rubro_month("+id+
+					","+mes+","+catego+","+name_catego+")");
+		}
+		$("#ModalRubro").modal("hide");
+		$("#ModalEditRubro").modal("show");
+	};
+	$("#back_rubro").click(function(){
+		$("#ModalEditRubro").modal("hide");
+		$("#ModalRubro").modal("show");
+	});
+
 };
 
 if (document.getElementById("form_presu")){
