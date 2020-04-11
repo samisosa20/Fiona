@@ -13,6 +13,10 @@
     <title>Fiona - Reportes</title>
     <!-- This page css -->
     <!-- Custom CSS -->
+    <link href="../assets/extra-libs/c3/c3.min.css" rel="stylesheet">
+    <link href="../assets/libs/chartist/dist/chartist.min.css" rel="stylesheet">
+    <link href="../assets/extra-libs/jvector/jquery-jvectormap-2.0.2.css" rel="stylesheet" />
+    <!-- Custom CSS -->
     <link href="../dist/css/style.min.css" rel="stylesheet">
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -152,19 +156,19 @@
                                     </div>
                                     <div class="row">
                                         <div class="col-md-12 col-lg-4">
-                                            <div class="card">
-                                                <div class="card-body">
+                                            <div class="card border-button boder">
+                                                <div class="card-body" style="padding: 15px;">
                                                     <h4 class="card-title">Resumen por cuenta</h4>
-                                                    <div id="resumen" class="mt-4">
+                                                    <div id="resumen" class="mt-4 overflow-auto" style="max-height: 150px;">
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="col-md-6 col-lg-8">
-                                            <div class="card">
-                                                <div class="card-body">
+                                            <div class="card border-button boder">
+                                                <div class="card-body" style="padding: 15px;">
                                                     <h4 class="card-title">TOP 10 de gastos</h4>
-                                                    <div id="top_10">
+                                                    <div id="top_10" class="overflow-auto" style="max-height: 150px;">
                                                     </div>
                                                 </div>
                                             </div>
@@ -179,6 +183,25 @@
             <!-- ============================================================== -->
             <!-- End Container fluid  -->
             <!-- ============================================================== -->
+            <div id="ModalActivityAccount" class="modal fade" tabindex="-1" role="dialog"
+				aria-labelledby="ModalActiAccLbl" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-scrollable">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title" id="ModalActiAccLbl"></h4>
+                            <button type="button" class="close" data-dismiss="modal"
+                                aria-hidden="true">×</button>
+                        </div>
+                        <div id="bodyActivity" class="modal-body">
+                        
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-light"
+                                data-dismiss="modal">Cerrar</button>
+                        </div>
+                    </div><!-- /.modal-content -->
+                </div><!-- /.modal-dialog -->
+            </div><!-- /.modal -->
             <!-- ============================================================== -->
             <!-- footer -->
             <!-- ============================================================== -->
@@ -196,7 +219,7 @@
     <!-- ============================================================== -->
     <!-- End Wrapper -->
     <!-- ============================================================== -->
-    <!-- All Jquery -->
+     <!-- All Jquery -->
     <!-- ============================================================== -->
     <script src="../assets/libs/jquery/dist/jquery.min.js"></script>
     <script src="../assets/libs/popper.js/dist/umd/popper.min.js"></script>

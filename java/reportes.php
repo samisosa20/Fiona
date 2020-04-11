@@ -96,7 +96,75 @@ $('#screen_android').click(function(){
     $("#ModalScreen").modal("hide");
     $("#ModalScreenAndroid").modal("show");
 });
-
+function showactivityaccount(cuenta, fecha_ini, fecha_fin){
+    var idu = <?php echo $id_user;?>;
+    var divisa_primary = <?php echo $divisa_primary;?>;
+    document.getElementById("bodyActivity").innerHTML = "";
+    document.getElementById("ModalActiAccLbl").innerHTML = "Actividad de " + cuenta;
+    //movimientos por cuenta
+    $.ajax({
+        type: "GET",
+        url: '../json/reportes?action=9&idu='+ idu+'&divi='+divisa_primary+
+        '&fecha_ini='+fecha_ini+'&fecha_fin='+fecha_fin+'&account='+cuenta, 
+        dataType: "json",
+        success: function(data){
+            //console.log(data);
+            $.each(data,function(key, registro) {
+                var cuenta = '"'+registro.nombre+'"';
+                if (registro.cantidad > 0) {
+                $("#bodyActivity").append("<div class='card border-botton border-right border-left'>"+
+                        "<h4 class='card-title col-md-12 text-muted mt-2'>"+
+                        registro.categoria+"</h3>"+
+                        "<h6 class='card-title ml-3 row col-md-12 text-muted'>"+
+                        "<p class='text-success'>"+formatter.format(registro.cantidad)+
+                        "</p><p class='text-muted ml-1'></p>"+registro.fecha+"</h6>"+
+                "</div>");
+            } else {
+                $("#bodyActivity").append("<div class='card border-botton border-right border-left'>"+
+                        "<h4 class='card-title col-md-12 text-muted mt-2'>"+
+                        registro.categoria+"</h3>"+
+                        "<h6 class='card-title ml-3 row col-md-12 text-muted'>"+
+                        "<p class='text-danger'>"+formatter.format(registro.cantidad)+
+                        "</p><p class='text-muted ml-1'></p>"+registro.fecha+"</h6>"+
+                "</div>");
+            }
+            });
+        },
+        error: function (data) {
+            //console.log(data);
+        }
+    });
+    $("#ModalActivityAccount").modal("show");
+}
+function showactivitycatego(categoria, fecha_ini, fecha_fin){
+    var idu = <?php echo $id_user;?>;
+    var divisa_primary = <?php echo $divisa_primary;?>;
+    document.getElementById("bodyActivity").innerHTML = "";
+    document.getElementById("ModalActiAccLbl").innerHTML = "Actividad de " + categoria;
+    //movimientos por categoria
+    $.ajax({
+        type: "GET",
+        url: '../json/reportes?action=10&idu='+ idu+'&divi='+divisa_primary+
+        '&fecha_ini='+fecha_ini+'&fecha_fin='+fecha_fin+'&catego='+categoria, 
+        dataType: "json",
+        success: function(data){
+            //console.log(data);
+            $.each(data,function(key, registro) {
+                $("#bodyActivity").append("<div class='card border-botton border-right border-left'>"+
+                        "<h4 class='card-title col-md-12 text-muted mt-2'>"+
+                        registro.nombre+"</h3>"+
+                        "<h6 class='card-title ml-3 row col-md-12 text-muted'>"+
+                        "<p class='text-danger'>"+formatter.format(registro.cantidad)+
+                        "</p><p class='text-muted ml-1'></p>"+registro.fecha+"</h6>"+
+                "</div>");
+            });
+        },
+        error: function (data) {
+            //console.log(data);
+        }
+    });
+    $("#ModalActivityAccount").modal("show");
+}
 function view_chart(divisa_primary){
     var idu = <?php echo $id_user;?>;
     var fecha_ini = document.getElementById("fecha_ini").value;
@@ -121,54 +189,54 @@ function view_chart(divisa_primary){
             });
             //console.log(data2);
             var chart1 = c3.generate({
-            bindto: '#campaign-v2',
-            data: {
-                json: [data2],
-                keys: {
-                    value: value
+                bindto: '#campaign-v2',
+                data: {
+                    json: [data2],
+                    keys: {
+                        value: value
+                    },
+
+                    type: 'donut',
+                    tooltip: {
+                        show: true
+                    }
+                },
+                donut: {
+                    label: {
+                        show: false
+                    },
+                    title: 'Total '+ formatter.format(total),
+                    width: 18
                 },
 
-                type: 'donut',
-                tooltip: {
-                    show: true
+                legend: {
+                    hide: true
+                },
+                color: {
+                    pattern: [
+                        '#5f76e8',
+                        '#ff4f70',
+                        '#01caf1',
+                        '#ff7f0e',
+                        '#ffbb78',
+                        '#2ca02c',
+                        '#98df8a',
+                        '#d62728',
+                        '#ff9896',
+                        '#9467bd',
+                        '#c5b0d5',
+                        '#8c564b',
+                        '#c49c94',
+                        '#e377c2',
+                        '#f7b6d2',
+                        '#7f7f7f',
+                        '#c7c7c7',
+                        '#bcbd22',
+                        '#dbdb8d',
+                        '#17becf',
+                        '#9edae5'
+                    ]
                 }
-            },
-            donut: {
-                label: {
-                    show: false
-                },
-                title: 'Total '+ formatter.format(total),
-                width: 18
-            },
-
-            legend: {
-                hide: true
-            },
-            color: {
-                pattern: [
-                    '#5f76e8',
-                    '#ff4f70',
-                    '#01caf1',
-                    '#ff7f0e',
-                    '#ffbb78',
-                    '#2ca02c',
-                    '#98df8a',
-                    '#d62728',
-                    '#ff9896',
-                    '#9467bd',
-                    '#c5b0d5',
-                    '#8c564b',
-                    '#c49c94',
-                    '#e377c2',
-                    '#f7b6d2',
-                    '#7f7f7f',
-                    '#c7c7c7',
-                    '#bcbd22',
-                    '#dbdb8d',
-                    '#17becf',
-                    '#9edae5'
-                ]
-            }
             });
         },
         error: function (data) {
@@ -411,9 +479,12 @@ function view_chart(divisa_primary){
         success: function(data){
             //console.log(data);
             $.each(data,function(key, registro) {
-                $("#resumen").append("<div>"+
+                var cuenta = '"'+registro.nombre+'"';
+                var fecha_ini = '"'+document.getElementById("fecha_ini").value +'"';
+                var fecha_fin = '"'+document.getElementById("fecha_fin").value +'"';
+                $("#resumen").append("<div onclick='showactivityaccount("+cuenta+","+fecha_ini+","+fecha_fin+")' class='card border-botton border-right border-left'>"+
 							"<div class='row'>"+
-								"<h4 class='card-title col-md-10 col-lg-10 col-xl-10 text-muted'>"+
+								"<h4 class='ml-2 mt-1 card-title col-md-10 col-lg-10 col-xl-10 text-muted'>"+
                                 registro.nombre+"</h3>"+
 								"<h6 class='card-title ml-3 row col-md-12 col-lg-12 col-xl-12 text-muted'>"+
                                 "<p class='text-success'>"+registro.ingreso+"</p>/<p class='text-danger'>"+
@@ -427,7 +498,6 @@ function view_chart(divisa_primary){
         }
     });
     //TOP 10
-
     $.ajax({
         type: "GET",
         url: '../json/reportes?action=5&idu='+ idu+'&divi='+divisa_primary+
@@ -436,9 +506,12 @@ function view_chart(divisa_primary){
         success: function(data){
             //console.log(data);
             $.each(data,function(key, registro) {
-                $("#top_10").append("<div>"+
+                var catego = '"'+registro.categoria+'"';
+                var fecha_ini = '"'+document.getElementById("fecha_ini").value +'"';
+                var fecha_fin = '"'+document.getElementById("fecha_fin").value +'"';
+                $("#top_10").append("<div onclick='showactivitycatego("+catego+","+fecha_ini+","+fecha_fin+")' class='card border-botton border-right border-left'>"+
                     "<div class='row'>"+
-                        "<h4 class='card-title col-md-10 col-lg-10 col-xl-10 text-muted'>"+
+                        "<h4 class='ml-2 mt-1 card-title col-md-10 col-lg-10 col-xl-10 text-muted'>"+
                         registro.categoria+"</h3>"+
                         "<h6 class='card-title ml-3 row col-md-12 col-lg-12 col-xl-12 text-muted'>"+
                         "<p class='text-danger'>"+registro.cantidad+"</p></h6>"+

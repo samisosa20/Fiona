@@ -212,6 +212,59 @@ function move_account_moth(){
     }
 };
 
+function move_account_interval(){
+    include_once('../conexions/connect.php'); 
+    // Check connection
+    if ( mysqli_connect_errno() ) {
+        echo "Error: Ups! Hubo problemas con la conexión.  Favor de intentar nuevamente.";
+    } else {
+        $id_user = $_GET['idu'];
+        $divi =  $_GET['divi'];
+        $cuenta = $_GET['account'];
+        $fecha_ini = $_GET['fecha_ini'];
+        $fecha_fin = $_GET['fecha_fin'];
+        $strsql = "SELECT c.categoria, SUM(valor) AS cantidad, a.divisa, a.id_user, fecha
+        FROM fionadb.movimientos AS a JOIN fionadb.cuentas AS b ON(a.id_user = b.id_user and a.cuenta = b.id) 
+        JOIN fionadb.categorias AS c ON (a.id_user = c.id_user and a.categoria =c.id) WHERE a.id_user = '$id_user' 
+        and a.divisa = '$divi' and fecha >= '$fecha_ini' and fecha <= '$fecha_fin'
+        and b.nombre = '$cuenta' GROUP BY a.categoria ORDER BY fecha ASC";
+        $rs = mysqli_query($conn, $strsql);
+        $total_rows = $rs->num_rows;
+        if ($total_rows > 0 ) {
+            while ($row = $rs->fetch_object()){
+                $data[] = $row;
+            }
+            echo(json_encode($data));
+        }
+    }
+};
+
+function move_catego_interval(){
+    include_once('../conexions/connect.php'); 
+    // Check connection
+    if ( mysqli_connect_errno() ) {
+        echo "Error: Ups! Hubo problemas con la conexión.  Favor de intentar nuevamente.";
+    } else {
+        $id_user = $_GET['idu'];
+        $divi =  $_GET['divi'];
+        $catego = $_GET['catego'];
+        $fecha_ini = $_GET['fecha_ini'];
+        $fecha_fin = $_GET['fecha_fin'];
+        $strsql = "SELECT b.nombre, SUM(valor) AS cantidad, a.divisa, a.id_user, fecha
+        FROM fionadb.movimientos AS a JOIN fionadb.cuentas AS b ON(a.id_user = b.id_user and a.cuenta = b.id) 
+        JOIN fionadb.categorias AS c ON (a.id_user = c.id_user and a.categoria =c.id) WHERE a.id_user = '$id_user' 
+        and a.divisa = '$divi' and fecha >= '$fecha_ini' and fecha <= '$fecha_fin'
+        and c.categoria = '$catego' GROUP BY a.cuenta ORDER BY fecha ASC";
+        $rs = mysqli_query($conn, $strsql);
+        $total_rows = $rs->num_rows;
+        if ($total_rows > 0 ) {
+            while ($row = $rs->fetch_object()){
+                $data[] = $row;
+            }
+            echo(json_encode($data));
+        }
+    }
+};
 $action = $_GET['action'];
 switch($action) {
     case 1: 
@@ -237,6 +290,12 @@ switch($action) {
         break;
     case 8:
         move_account_moth();
+        break;
+    case 9:
+        move_account_interval();
+        break;
+    case 10:
+        move_catego_interval();
         break;
 }
 ?>
