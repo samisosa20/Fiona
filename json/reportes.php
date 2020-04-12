@@ -265,6 +265,52 @@ function move_catego_interval(){
         }
     }
 };
+
+function cumpli_presu_lvl_1(){
+    include_once('../conexions/connect.php'); 
+    // Check connection
+    if ( mysqli_connect_errno() ) {
+        echo "Error: Ups! Hubo problemas con la conexión.  Favor de intentar nuevamente.";
+    } else {
+        $id_user = $_GET['idu'];
+        $divi =  $_GET['divi'];
+        $fecha_ini = $_GET['fecha_ini'];
+        $fecha_fin = $_GET['fecha_fin'];
+        $strsql = "SELECT categoria, grupo, SUM(cantidad) AS cantidad, SUM(generado) AS generado, ROUND(SUM(generado)/SUM(cantidad) * 100, 2) 
+        AS cumplimiento, MONTHNAME(CONCAT(year,'-',mes,'-',1)) AS name_mes, mes, year, id_user FROM compara_presu WHERE id_user = '$id_user' and mes >= MONTH('$fecha_ini') and mes <= MONTH('$fecha_fin')
+        GROUP BY categoria, mes, year, id_user ORDER BY grupo DESC, categoria, year, mes";
+        $rs = mysqli_query($conn, $strsql);
+        $total_rows = $rs->num_rows;
+        if ($total_rows > 0 ) {
+            while ($row = $rs->fetch_object()){
+                $data[] = $row;
+            }
+            echo(json_encode($data));
+        }
+    }
+};
+
+function cumpli_presu_lvl_2(){
+    include_once('../conexions/connect.php'); 
+    // Check connection
+    if ( mysqli_connect_errno() ) {
+        echo "Error: Ups! Hubo problemas con la conexión.  Favor de intentar nuevamente.";
+    } else {
+        $id_user = $_GET['idu'];
+        $divi =  $_GET['divi'];
+        $catego = $_GET['catego'];
+        $mes = $_GET['mes'];
+        $strsql = "SELECT * FROM fionadb.compara_presu WHERE categoria = '$catego' and mes = $mes and id_user = '$id_user'";
+        $rs = mysqli_query($conn, $strsql);
+        $total_rows = $rs->num_rows;
+        if ($total_rows > 0 ) {
+            while ($row = $rs->fetch_object()){
+                $data[] = $row;
+            }
+            echo(json_encode($data));
+        }
+    }
+};
 $action = $_GET['action'];
 switch($action) {
     case 1: 
@@ -296,6 +342,12 @@ switch($action) {
         break;
     case 10:
         move_catego_interval();
+        break;
+    case 11:
+        cumpli_presu_lvl_1();
+        break;
+    case 12:
+        cumpli_presu_lvl_2();
         break;
 }
 ?>

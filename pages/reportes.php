@@ -164,11 +164,20 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-md-6 col-lg-8">
+                                        <div class="col-md-12 col-lg-4">
                                             <div class="card border-button boder">
                                                 <div class="card-body" style="padding: 15px;">
                                                     <h4 class="card-title">TOP 10 de gastos</h4>
                                                     <div id="top_10" class="overflow-auto" style="max-height: 150px;">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12 col-lg-4">
+                                            <div class="card border-button boder">
+                                                <div class="card-body" style="padding: 15px;">
+                                                    <h4 class="card-title">Presupuesto</h4>
+                                                    <div id="cumplimiento" class="mt-4 overflow-auto" style="max-height: 150px;">
                                                     </div>
                                                 </div>
                                             </div>
