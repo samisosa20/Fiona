@@ -16,7 +16,7 @@ function list_cate(){
             $strsql = "SELECT a.id, a.categoria, COUNT(b.id) AS cantidad, a.grupo, a.sub_categoria,
             a.descripcion FROM fionadb.categorias AS a LEFT JOIN fionadb.categorias AS b 
             ON (a.id = b.sub_categoria) WHERE a.id_user='$id_user'
-            and a.sub_categoria=$lvl and a.categoria != 'Transferencia' GROUP BY a.categoria";
+            and a.sub_categoria=$lvl and a.sub_categoria != a.id and a.categoria != 'Transferencia' GROUP BY a.categoria";
         }
         $rs = mysqli_query($conn, $strsql);
         $total_rows = $rs->num_rows;
