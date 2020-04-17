@@ -9,6 +9,8 @@ const formatter = new Intl.NumberFormat('en-US', {
   currency: 'USD',
   minimumFractionDigits: 2
 });
+var nro_mesajes = document.getElementById("nro_message").innerHTML;
+var nro_ant_mes = 0;
 
 if (document.getElementById("ModalCategora")) {
 	var idu = <?php echo $id_user; ?>;
@@ -240,6 +242,8 @@ if (document.getElementById("ModalCategora")) {
 	load_data_cat(0, idu);
 	getPagina("consult_cate", "categoria");
 	load_data_balance();
+	getPagina("consult_nro_message", "nro_message");
+    getPagina("consult_mensajes", "list_mensajes");
 	val_new_cate(idu)
 	setInterval(function(){
 		var url = window.location.href;
@@ -503,6 +507,8 @@ if (document.getElementById("ModalAccount")) {
 	load_data(0, idu);
 	load_data_balance();
 	val_new_acco(idu);
+	getPagina("consult_nro_message", "nro_message");
+    getPagina("consult_mensajes", "list_mensajes");
 	setInterval(function(){
 		var url = window.location.href;
 		var div = url.split("#");
@@ -611,6 +617,8 @@ if (document.getElementById("card_presu")) {
 	load_data_balance();
 	val_new_acco(idu);
 	load_data(idu);
+	getPagina("consult_nro_message", "nro_message");
+    getPagina("consult_mensajes", "list_mensajes");
 };
 
 if (document.getElementById("add_data_presu")) {
@@ -737,6 +745,8 @@ if (document.getElementById("add_data_presu")) {
 		$("#ModalEditRubro").modal("hide");
 		$("#ModalRubro").modal("show");
 	});
+	getPagina("consult_nro_message", "nro_message");
+    getPagina("consult_mensajes", "list_mensajes");
 
 };
 
@@ -944,6 +954,8 @@ if (document.getElementById("form_presu")){
 			});
 		}
 	});
+	getPagina("consult_nro_message", "nro_message");
+    getPagina("consult_mensajes", "list_mensajes");
 };
 
 if (document.getElementById("table_move_acc")){
@@ -1375,6 +1387,8 @@ if (document.getElementById("table_move_acc")){
 			});
 		}
 	});
+	getPagina("consult_nro_message", "nro_message");
+    getPagina("consult_mensajes", "list_mensajes");
 };
 
 if (document.getElementById("body_profile")){
@@ -1475,6 +1489,8 @@ if (document.getElementById("body_profile")){
 			document.getElementById("pass_2").className = "form-control is-valid";
 		}
 	};
+	getPagina("consult_nro_message", "nro_message");
+    getPagina("consult_mensajes", "list_mensajes");
 };
 
 function getPagina(strURLop, div) {
@@ -1541,3 +1557,56 @@ function load_data_balance(){
 		}
 	});
 };
+function notificar(titulo, contenido){
+    if(Notification.permission != "granted"){
+        Notification.requestPermission();
+    }else{
+        var notification = new Notification(titulo,
+            {
+                icon: "http://fiona.byethost11.com/assets/images/logo-icon.png",
+                body: contenido
+            }
+        );
+    }
+}
+function show_mensaje(id){
+    $.ajax({
+        type: "GET",
+        url: '../json/consult?action=8&idu='+idu+'&id='+id, 
+        dataType: "json",
+        success: function(data){
+            $.each(data,function(key, registro) {
+                document.getElementById("ModalMensaLbl").innerHTML = registro.titulo;
+                document.getElementById("catego_mensaje").innerHTML = registro.tipo;
+                document.getElementById("fecha_mensaje").innerHTML = registro.fecha;
+                document.getElementById("contenido_mensaje").innerHTML = registro.Contenido;
+            });
+        }
+    });
+    $("#ModalMensajes").modal("show");
+    $.ajax('../conexions/read_mensaje', {
+        type: 'POST',
+        data: {
+            id: id
+        },
+        success: function (data, status, xhr) {
+            //console.log('status: ' + status + ', data: ' + data);
+        }
+    });
+    
+}
+function count_message(){
+    //console.log("antes: " + nro_mesajes);
+    nro_ant_mes = nro_mesajes;
+    getPagina("consult_nro_message", "nro_message");
+    nro_mesajes = document.getElementById("nro_message").innerHTML;
+    //console.log("despues: " + nro_mesajes);
+    if (nro_ant_mes < nro_mesajes && nro_ant_mes != ""){
+        notificar('FIONA Notificacion', "Tienes un nuevo mensaje de fiona!");
+        getPagina("consult_mensajes", "list_mensajes");
+    }
+    else if (nro_mesajes < nro_ant_mes){
+        getPagina("consult_mensajes", "list_mensajes");
+    }
+};
+setInterval("count_message()", 5000);

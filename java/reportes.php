@@ -7,6 +7,8 @@ var idu = <?php echo $id_user;?>;
 var divisa_primary = <?php echo $divisa_primary;?>;
 date_input();
 load_data_balance();
+var nro_mesajes = document.getElementById("nro_message").innerHTML;
+var nro_ant_mes = 0;
 getPagina("consult_divisa_repo?select=" + divisa_primary, "select_divisa");
 const formatter = new Intl.NumberFormat('en-US', {
   style: 'currency',
@@ -43,6 +45,8 @@ function load_data_balance(){
 			);
 		}
 	});
+    getPagina("consult_nro_message", "nro_message");
+    getPagina("consult_mensajes", "list_mensajes");
 };
 function date_input(){
     var divisa_primary = <?php echo $divisa_primary;?>;
@@ -639,3 +643,56 @@ function view_chart(divisa_primary){
     d3.select('#campaign-v4 .c3-chart-arcs-title').style('font-family', 'Rubik');
 
 };
+function notificar(titulo, contenido){
+    if(Notification.permission != "granted"){
+        Notification.requestPermission();
+    }else{
+        var notification = new Notification(titulo,
+            {
+                icon: "http://fiona.byethost11.com/assets/images/logo-icon.png",
+                body: contenido
+            }
+        );
+    }
+}
+function show_mensaje(id){
+    $.ajax({
+        type: "GET",
+        url: '../json/consult?action=8&idu='+idu+'&id='+id, 
+        dataType: "json",
+        success: function(data){
+            $.each(data,function(key, registro) {
+                document.getElementById("ModalMensaLbl").innerHTML = registro.titulo;
+                document.getElementById("catego_mensaje").innerHTML = registro.tipo;
+                document.getElementById("fecha_mensaje").innerHTML = registro.fecha;
+                document.getElementById("contenido_mensaje").innerHTML = registro.Contenido;
+            });
+        }
+    });
+    $("#ModalMensajes").modal("show");
+    $.ajax('../conexions/read_mensaje', {
+        type: 'POST',
+        data: {
+            id: id
+        },
+        success: function (data, status, xhr) {
+            //console.log('status: ' + status + ', data: ' + data);
+        }
+    });
+    
+}
+function count_message(){
+    //console.log("antes: " + nro_mesajes);
+    nro_ant_mes = nro_mesajes;
+    getPagina("consult_nro_message", "nro_message");
+    nro_mesajes = document.getElementById("nro_message").innerHTML;
+    //console.log("despues: " + nro_mesajes);
+    if (nro_ant_mes < nro_mesajes && nro_ant_mes != ""){
+        notificar('FIONA Notificacion', "Tienes un nuevo mensaje de fiona!");
+        getPagina("consult_mensajes", "list_mensajes");
+    }
+    else if (nro_mesajes < nro_ant_mes){
+        getPagina("consult_mensajes", "list_mensajes");
+    }
+};
+setInterval("count_message()", 5000);

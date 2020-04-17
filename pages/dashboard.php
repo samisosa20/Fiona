@@ -481,49 +481,6 @@
                     </div><!-- /.modal-content -->
                 </div><!-- /.modal-dialog -->
             </div><!-- /.modal -->
-            <div id="ModalMensajes" class="modal fade" tabindex="-1" role="dialog"
-				aria-labelledby="ModalMensaLbl" aria-hidden="true">
-                <div class="modal-dialog modal-dialog-scrollable">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h4 class="modal-title" id="ModalMensaLbl"></h4>
-                            <button type="button" class="close" data-dismiss="modal"
-                                aria-hidden="true">×</button>
-                        </div>
-                        <div id="bodyMensajes" class="modal-body">
-                            <div class="row mb-2">
-                                <label for="catego_mensaje"
-                                    class="col-sm-2 col-form-label text-dark">Categoria :</label>
-                                <div class="col-sm-10">
-                                    <label class="col-form-label"
-                                        id="catego_mensaje"></label>
-                                </div>
-                            </div>
-                            <div class="row mb-2">
-                                <label for="fecha_mensaje"
-                                    class="col-sm-2 col-form-label text-dark">Fecha :</label>
-                                <div class="col-sm-10">
-                                    <label class="col-form-label"
-                                        id="fecha_mensaje"></label>
-                                </div>
-                            </div>
-                            <div class="row mb-2">
-                                <label for="contenido_mensaje"
-                                    class="col-sm-2 col-form-label text-dark">Contenido :</label>
-                                <div class="col-sm-10">
-                                    <label class="col-form-label"
-                                        id="contenido_mensaje"></label>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-light"
-                            data-dismiss="modal"
-                                aria-hidden="true">Salir</button>
-                        </div>
-                    </div><!-- /.modal-content -->
-                </div><!-- /.modal-dialog -->
-            </div><!-- /.modal -->
             <!-- ============================================================== -->
             <!-- footer -->
             <!-- ============================================================== -->
