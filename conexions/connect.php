@@ -1,6 +1,6 @@
 <?php
    class Password {
-      const SALT = 'FiOnaApp';
+      const SALT = 'FiOnA2020';
       public static function hash($password) {
           return hash('sha512', self::SALT . $password);
       }
@@ -8,10 +8,10 @@
           return ($hash == self::hash($password));
       }
    }
-   $servername = "sguttman.czq11ubuofgu.us-east-2.rds.amazonaws.com";
-   $username = "app_fiona";
-   $password = "%Fiona2020%";
-   $db = "fionadb";
+   $servername = "localhost";
+   $username = "root";
+   $password = "root";
+   $db = "fiona";
    // Create connection
    $conn = mysqli_connect($servername, $username, $password,$db);
    // Check connection
